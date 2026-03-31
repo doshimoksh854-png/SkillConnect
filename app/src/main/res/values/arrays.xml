@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Default price range for RangeSlider: [0, 5000] -->
+    <array name="price_range_defaults">
+        <item>0</item>
+        <item>5000</item>
+    </array>
+</resources>

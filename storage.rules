@@ -1,0 +1,41 @@
+// Firebase Storage Security Rules for SkillConnect
+// =====================================================
+// ⚠️ IMPORTANT: You MUST paste this into Firebase Console
+//    Go to: Firebase Console → Storage → Rules → Paste → Publish
+// =====================================================
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Allow any logged-in user to read/write chat files (images, documents)
+    match /chat_files/{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Legacy path
+    match /chat_images/{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Profile photos
+    match /profile_photos/{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Job post images (uploaded when customer posts a job)
+    match /job_images/{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Job post file attachments (PDFs, docs, etc.)
+    match /job_files/{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    // Deny everything else
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

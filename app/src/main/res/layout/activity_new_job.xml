@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/bg_gradient_primary"
+            app:title="Post a New Job"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:padding="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Describe what you need done, and providers will submit their proposals."
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textSize="14sp"
+                android:paddingBottom="24dp" />
+
+            <!-- Job Title -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Job Title"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapSentences" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Category -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Category"
+                android:layout_marginBottom="16dp">
+
+                <AutoCompleteTextView
+                    android:id="@+id/actvCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Description -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilDescription"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description &amp; Requirements"
+                app:endIconMode="custom"
+                app:endIconDrawable="@drawable/ic_mic"
+                app:endIconContentDescription="Speak Description"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:minLines="4"
+                    android:gravity="top" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Budget -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Your Budget (₹)"
+                app:prefixText="₹"
+                android:layout_marginBottom="16dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBudget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- ── Deadline Section ──────────────────────────────────────── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PROJECT TIMELINE"
+                android:textSize="12sp"
+                android:textColor="?attr/colorPrimary"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_bottom_sheet"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_briefcase"
+                    app:tint="?attr/colorPrimary"
+                    android:contentDescription="Deadline" />
+
+                <TextView
+                    android:id="@+id/tvDeadline"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="No deadline set"
+                    android:textSize="15sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:layout_marginStart="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSetDeadline"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Set Date"
+                    android:textSize="13sp"
+                    app:cornerRadius="8dp" />
+            </LinearLayout>
+
+            <!-- ── Image Attachment Section ──────────────────────────────── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ATTACH PHOTO (Optional)"
+                android:textSize="12sp"
+                android:textColor="?attr/colorPrimary"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_bottom_sheet"
+                android:padding="12dp"
+                android:layout_marginBottom="16dp">
+
+                <!-- Thumbnail preview -->
+                <ImageView
+                    android:id="@+id/ivImagePreview"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/bg_avatar"
+                    android:src="@drawable/ic_add"
+                    android:contentDescription="Image preview"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tvImageStatus"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="No image selected"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:layout_marginStart="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddImage"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Browse"
+                    android:textSize="13sp"
+                    app:cornerRadius="8dp" />
+            </LinearLayout>
+
+            <!-- Image thumbnail (shown full width after selection) -->
+            <ImageView
+                android:id="@+id/ivJobImageFull"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/bg_avatar"
+                android:visibility="gone"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Selected job image" />
+
+            <!-- ── File Attachment Section ────────────────────────────────── -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ATTACH FILE (Optional)"
+                android:textSize="12sp"
+                android:textColor="?attr/colorPrimary"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.08"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@drawable/bg_bottom_sheet"
+                android:padding="12dp"
+                android:layout_marginBottom="32dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_share"
+                    app:tint="?attr/colorPrimary"
+                    android:contentDescription="File" />
+
+                <TextView
+                    android:id="@+id/tvFileStatus"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="No file selected"
+                    android:textSize="14sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:layout_marginStart="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAttachFile"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Browse"
+                    android:textSize="13sp"
+                    app:cornerRadius="8dp" />
+            </LinearLayout>
+
+            <!-- Upload progress -->
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/uploadProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone"
+                app:trackCornerRadius="4dp" />
+
+            <TextView
+                android:id="@+id/tvUploadStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="13sp"
+                android:textColor="?attr/colorPrimary"
+                android:gravity="center"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPostJob"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Post Job"
+                android:textSize="16sp"
+                app:cornerRadius="12dp" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

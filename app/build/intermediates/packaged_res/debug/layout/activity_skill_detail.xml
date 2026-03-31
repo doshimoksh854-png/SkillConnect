@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/md_theme_light_primary"
+            app:expandedTitleMarginBottom="@dimen/spacing_lg"
+            app:expandedTitleMarginStart="@dimen/spacing_base"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/ivSkillImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/md_theme_light_primaryContainer"
+                android:contentDescription="@string/sample_skill_title"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax" />
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_bar_height"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_back"
+                app:menu="@menu/menu_skill_detail" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_base">
+
+            <!-- Skill Title and Price -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvSkillTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/sample_skill_title"
+                    android:textColor="@color/md_theme_light_onSurface"
+                    android:textSize="@dimen/text_size_headline_small"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_base"
+                    android:text="@string/sample_price"
+                    android:textColor="@color/md_theme_light_primary"
+                    android:textSize="@dimen/text_size_headline_small"
+                    android:fontFamily="sans-serif-medium" />
+
+            </LinearLayout>
+
+            <!-- Rating -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_star"
+                    android:contentDescription="@string/rating" />
+
+                <TextView
+                    android:id="@+id/tvRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="4.9"
+                    android:textColor="@color/md_theme_light_onSurface"
+                    android:textSize="@dimen/text_size_body"
+                    android:fontFamily="sans-serif-medium" />
+
+                <TextView
+                    android:id="@+id/tvReviewCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:text="(124 reviews)"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                    android:textSize="@dimen/text_size_body" />
+
+            </LinearLayout>
+
+            <!-- Description Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:text="@string/skill_description"
+                android:textColor="@color/md_theme_light_onSurface"
+                android:textSize="@dimen/text_size_body"
+                android:fontFamily="sans-serif-medium" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="@string/sample_description"
+                android:textColor="@color/md_theme_light_onSurfaceVariant"
+                android:textSize="@dimen/text_size_body"
+                android:lineSpacingExtra="4dp" />
+
+            <!-- Provider Section -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardProvider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                app:cardCornerRadius="@dimen/card_corner_radius"
+                app:cardElevation="@dimen/card_elevation"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/spacing_base"
+                    android:gravity="center_vertical">
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/ivProviderImage"
+                        android:layout_width="@dimen/profile_image_size"
+                        android:layout_height="@dimen/profile_image_size"
+                        android:src="@drawable/ic_profile_placeholder"
+                        android:contentDescription="@string/cd_profile_image"
+                        app:shapeAppearanceOverlay="@style/CircleImageView" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/spacing_base"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/about_provider"
+                            android:textColor="@color/md_theme_light_onSurfaceVariant"
+                            android:textSize="@dimen/text_size_caption" />
+
+                        <TextView
+                            android:id="@+id/tvProviderName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_xs"
+                            android:text="@string/sample_provider_name"
+                            android:textColor="@color/md_theme_light_onSurface"
+                            android:textSize="@dimen/text_size_body"
+                            android:fontFamily="sans-serif-medium" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="→"
+                        android:textSize="24sp"
+                        android:textColor="@color/md_theme_light_primary" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Reviews Section Header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:text="@string/reviews"
+                android:textColor="@color/md_theme_light_onSurface"
+                android:textSize="@dimen/text_size_body"
+                android:fontFamily="sans-serif-medium" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:text="@string/no_reviews"
+                android:textColor="@color/md_theme_light_onSurfaceVariant"
+                android:textSize="@dimen/text_size_body" />
+
+            <!-- Notes / Special Requirements — Fix 8 -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNotes"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:hint="Special requirements or notes (optional)">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:minLines="2"
+                    android:maxLines="4"
+                    android:gravity="top" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Bottom spacing for fixed button -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottom_bar_height" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Fixed Bottom Action Bar with Book + Chat buttons -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/spacing_base"
+            android:gravity="center_vertical">
+
+            <!-- Chat with Provider -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnChat"
+                style="@style/Widget.SkillConnect.Button.Outlined"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="💬 Chat"
+                android:textSize="@dimen/text_size_body"
+                app:cornerRadius="@dimen/button_corner_radius" />
+
+            <!-- Book Now -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBookNow"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/button_height"
+                android:layout_weight="1"
+                android:text="@string/book_now"
+                android:textSize="@dimen/text_size_body"
+                app:cornerRadius="@dimen/button_corner_radius" />
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Translate FAB -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabTranslate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="88dp" 
+        android:text="🌐 Translate"
+        android:textSize="12sp"
+        app:icon="@drawable/ic_chat"
+        app:iconSize="0dp"
+        android:visibility="gone" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

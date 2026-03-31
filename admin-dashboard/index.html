@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillConnect Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-card">
+            <div class="login-header">
+                <span class="material-icons login-icon">admin_panel_settings</span>
+                <h1>SkillConnect</h1>
+                <p>Admin Dashboard</p>
+            </div>
+            <div class="login-form">
+                <div class="input-group">
+                    <span class="material-icons">email</span>
+                    <input type="email" id="loginEmail" placeholder="Admin Email" autocomplete="email">
+                </div>
+                <div class="input-group">
+                    <span class="material-icons">lock</span>
+                    <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+                </div>
+                <button id="btnLogin" class="btn-primary" onclick="handleLogin()">
+                    <span class="material-icons">login</span> Sign In
+                </button>
+                <p id="loginError" class="error-text"></p>
+            </div>
+            <p class="login-footer">🔒 Authorized personnel only</p>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard" style="display:none;">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <span class="material-icons">bolt</span>
+                <h2>SkillConnect</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="overview" onclick="switchSection('overview', this)">
+                    <span class="material-icons">dashboard</span> Overview
+                </a>
+                <a href="#" class="nav-item" data-section="users" onclick="switchSection('users', this)">
+                    <span class="material-icons">people</span> Users
+                </a>
+                <a href="#" class="nav-item" data-section="bookings" onclick="switchSection('bookings', this)">
+                    <span class="material-icons">event_note</span> Bookings
+                </a>
+                <a href="#" class="nav-item" data-section="payments" onclick="switchSection('payments', this)">
+                    <span class="material-icons">payments</span> Payments
+                </a>
+                <a href="#" class="nav-item" data-section="jobs" onclick="switchSection('jobs', this)">
+                    <span class="material-icons">work</span> Jobs
+                </a>
+                <a href="#" class="nav-item" data-section="reviews" onclick="switchSection('reviews', this)">
+                    <span class="material-icons">star</span> Reviews
+                </a>
+                <a href="#" class="nav-item" data-section="disputes" onclick="switchSection('disputes', this)">
+                    <span class="material-icons">report_problem</span> Disputes
+                </a>
+                <a href="#" class="nav-item" data-section="verification" onclick="switchSection('verification', this)">
+                    <span class="material-icons">verified</span> Verification
+                </a>
+                <a href="#" class="nav-item" data-section="updates" onclick="switchSection('updates', this)">
+                    <span class="material-icons">new_releases</span> Platform Updates
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="handleLogout()">
+                    <span class="material-icons">logout</span> Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h1 id="pageTitle">Overview</h1>
+                <div class="top-bar-right">
+                    <span class="admin-badge">
+                        <span class="material-icons">verified_user</span> Admin
+                    </span>
+                    <span id="adminEmail" class="admin-email"></span>
+                </div>
+            </header>
+
+            <div class="content-area">
+
+                <!-- Overview Section -->
+                <section id="sec-overview" class="section">
+                    <div class="stats-grid">
+                        <div class="stat-card stat-purple">
+                            <span class="material-icons">people</span>
+                            <div class="stat-info">
+                                <h3 id="statUsers">0</h3>
+                                <p>Total Users</p>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-blue">
+                            <span class="material-icons">event_note</span>
+                            <div class="stat-info">
+                                <h3 id="statBookings">0</h3>
+                                <p>Total Bookings</p>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-green">
+                            <span class="material-icons">payments</span>
+                            <div class="stat-info">
+                                <h3 id="statPayments">₹0</h3>
+                                <p>Total Revenue</p>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-orange">
+                            <span class="material-icons">work</span>
+                            <div class="stat-info">
+                                <h3 id="statJobs">0</h3>
+                                <p>Active Jobs</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cards-row">
+                        <div class="card">
+                            <h3>Recent Users</h3>
+                            <div id="recentUsers" class="mini-list"></div>
+                        </div>
+                        <div class="card">
+                            <h3>Recent Payments</h3>
+                            <div id="recentPayments" class="mini-list"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Users Section -->
+                <section id="sec-users" class="section" style="display:none;">
+                    <div class="section-header">
+                        <div class="filter-bar">
+                            <select id="filterUserRole" onchange="loadUsers()">
+                                <option value="all">All Roles</option>
+                                <option value="customer">Customers</option>
+                                <option value="provider">Providers</option>
+                            </select>
+                            <input type="text" id="searchUsers" placeholder="Search by name..." oninput="filterUsersLocal()">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="usersTable">
+                            <thead>
+                                <tr><th>Name</th><th>Email</th><th>Role</th><th>Phone</th><th>Rating</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="usersBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Bookings Section -->
+                <section id="sec-bookings" class="section" style="display:none;">
+                    <div class="section-header">
+                        <div class="filter-bar">
+                            <select id="filterBookingStatus" onchange="loadBookings()">
+                                <option value="all">All Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="accepted">Accepted</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Service</th><th>Customer</th><th>Provider</th><th>Price</th><th>Status</th><th>Payment</th><th>Date</th></tr>
+                            </thead>
+                            <tbody id="bookingsBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Payments Section -->
+                <section id="sec-payments" class="section" style="display:none;">
+                    <div class="stats-grid" style="margin-bottom:24px;">
+                        <div class="stat-card stat-green">
+                            <span class="material-icons">check_circle</span>
+                            <div class="stat-info">
+                                <h3 id="paySuccess">0</h3>
+                                <p>Successful</p>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-red">
+                            <span class="material-icons">cancel</span>
+                            <div class="stat-info">
+                                <h3 id="payFailed">0</h3>
+                                <p>Failed</p>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-purple">
+                            <span class="material-icons">account_balance_wallet</span>
+                            <div class="stat-info">
+                                <h3 id="payTotal">₹0</h3>
+                                <p>Total Collected</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Job</th><th>Customer</th><th>Provider</th><th>Amount</th><th>Status</th><th>Razorpay ID</th><th>Date</th></tr>
+                            </thead>
+                            <tbody id="paymentsBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Jobs Section -->
+                <section id="sec-jobs" class="section" style="display:none;">
+                    <div class="section-header">
+                        <div class="filter-bar">
+                            <select id="filterJobStatus" onchange="loadJobs()">
+                                <option value="all">All Status</option>
+                                <option value="open">Open</option>
+                                <option value="awarded">Awarded</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Title</th><th>Posted By</th><th>Category</th><th>Budget</th><th>Status</th><th>Bids</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="jobsBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Reviews Section -->
+                <section id="sec-reviews" class="section" style="display:none;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Reviewer</th><th>Service</th><th>Rating</th><th>Comment</th><th>Date</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="reviewsBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Disputes Section -->
+                <section id="sec-disputes" class="section" style="display:none;">
+                    <div class="section-header">
+                        <div class="filter-bar">
+                            <select id="filterDisputeStatus" onchange="loadDisputes()">
+                                <option value="all">All Status</option>
+                                <option value="open">Open</option>
+                                <option value="under_review">Under Review</option>
+                                <option value="resolved">Resolved</option>
+                                <option value="dismissed">Dismissed</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Reporter</th><th>Against</th><th>Reason</th><th>Description</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="disputesBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Verification Requests Section -->
+                <section id="sec-verification" class="section" style="display:none;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr><th>Provider</th><th>Legal Name</th><th>ID Number</th><th>Experience</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="verificationBody"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Platform Updates Section -->
+                <section id="sec-updates" class="section" style="display:none;">
+                    <div class="updates-header">
+                        <div class="updates-meta">
+                            <span class="material-icons">rocket_launch</span>
+                            <div>
+                                <h2>SkillConnect Platform Updates</h2>
+                                <p>Complete changelog of all features added across development phases</p>
+                            </div>
+                        </div>
+                        <div class="version-badge">v3.0 — Latest</div>
+                    </div>
+
+                    <!-- Phase 5: Accessibility & AI -->
+                    <div class="update-phase">
+                        <div class="phase-tag phase-latest">Phase 5 · Mar 2026 · Latest</div>
+                        <h3 class="phase-title">🌐 Accessibility & AI Features</h3>
+                        <div class="update-cards">
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#6366f1"><span class="material-icons">translate</span></div>
+                                <div class="update-body">
+                                    <h4>Real-Time Language Translation</h4>
+                                    <p>On-device ML Kit translation integrated into Job Detail and Skill Detail screens. Supports Hindi & Gujarati — works fully offline after first download.</p>
+                                    <div class="update-tags"><span class="utag">ML Kit</span><span class="utag">Hindi</span><span class="utag">Gujarati</span><span class="utag">Offline</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#8b5cf6"><span class="material-icons">mic</span></div>
+                                <div class="update-body">
+                                    <h4>Voice-to-Text Job Posting</h4>
+                                    <p>Customers can now speak their job description instead of typing. Microphone button in the New Job form launches Android speech recognizer and auto-fills the field.</p>
+                                    <div class="update-tags"><span class="utag">Speech Recognition</span><span class="utag">Accessibility</span><span class="utag">Android STT</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#7c3aed"><span class="material-icons">settings</span></div>
+                                <div class="update-body">
+                                    <h4>Language Preference Settings</h4>
+                                    <p>Users can select their preferred language (English / Hindi / Gujarati) from the Settings screen. Preference persists across sessions via LanguagePreferenceManager.</p>
+                                    <div class="update-tags"><span class="utag">Settings</span><span class="utag">Persistence</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 4: Admin & Analytics -->
+                    <div class="update-phase">
+                        <div class="phase-tag phase-4">Phase 4 · Mar 2026</div>
+                        <h3 class="phase-title">📊 Admin Analytics & Dashboard</h3>
+                        <div class="update-cards">
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#0891b2"><span class="material-icons">bar_chart</span></div>
+                                <div class="update-body">
+                                    <h4>Native Admin Analytics Screen</h4>
+                                    <p>New AdminDashboardActivity in the Android app with MPAndroidChart bar and pie charts showing monthly user growth, booking status breakdown, provider count and platform revenue.</p>
+                                    <div class="update-tags"><span class="utag">Charts</span><span class="utag">MPAndroidChart</span><span class="utag">Analytics</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#0e7490"><span class="material-icons">admin_panel_settings</span></div>
+                                <div class="update-body">
+                                    <h4>Role-Based Admin Access</h4>
+                                    <p>Admin Dashboard card in Profile screen appears only if logged-in email contains "admin". Full web dashboard at admin-dashboard/ with Firebase Auth + Firestore security.</p>
+                                    <div class="update-tags"><span class="utag">Security</span><span class="utag">Role-Based</span><span class="utag">Firestore Rules</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#155e75"><span class="material-icons">verified_user</span></div>
+                                <div class="update-body">
+                                    <h4>Provider Verification System</h4>
+                                    <p>Providers can submit KYC verification requests. Admins can approve or reject from this web dashboard. Approved providers receive a verified badge on their profile.</p>
+                                    <div class="update-tags"><span class="utag">KYC</span><span class="utag">Verification</span><span class="utag">Provider Trust</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 3: Wallet & Payments -->
+                    <div class="update-phase">
+                        <div class="phase-tag phase-3">Phase 3 · Mar 2026</div>
+                        <h3 class="phase-title">💳 Wallet & Escrow Payments</h3>
+                        <div class="update-cards">
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#059669"><span class="material-icons">account_balance_wallet</span></div>
+                                <div class="update-body">
+                                    <h4>In-App Wallet System</h4>
+                                    <p>Full wallet with balance, top-up, INR currency support. WalletActivity shows current balance with animated card. Firestore-backed per-user wallet document.</p>
+                                    <div class="update-tags"><span class="utag">Wallet</span><span class="utag">INR</span><span class="utag">Firestore</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#047857"><span class="material-icons">receipt_long</span></div>
+                                <div class="update-body">
+                                    <h4>Transaction History</h4>
+                                    <p>TransactionHistoryActivity with RecyclerView + TransactionAdapter. Shows type (credit/debit), amount, method, status with color-coded badges. Sorted by newest.</p>
+                                    <div class="update-tags"><span class="utag">History</span><span class="utag">RecyclerView</span><span class="utag">Transactions</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#065f46"><span class="material-icons">lock</span></div>
+                                <div class="update-body">
+                                    <h4>Simulated Escrow Payments</h4>
+                                    <p>Escrow-based payment flow: funds held on booking, released on completion. PaymentActivity + PaymentReceiptActivity. Payment status tracked in Firestore bookings.</p>
+                                    <div class="update-tags"><span class="utag">Escrow</span><span class="utag">Secure</span><span class="utag">Payment Flow</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 2: Jobs & Bidding -->
+                    <div class="update-phase">
+                        <div class="phase-tag phase-2">Phase 2 · Mar 2026</div>
+                        <h3 class="phase-title">💼 Jobs, Bidding & Notifications</h3>
+                        <div class="update-cards">
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#d97706"><span class="material-icons">work</span></div>
+                                <div class="update-body">
+                                    <h4>Job Posting by Customers</h4>
+                                    <p>Customers can post jobs with title, description, category, budget and deadline. NewJobActivity supports image/file attachment and now voice dictation for description.</p>
+                                    <div class="update-tags"><span class="utag">Jobs</span><span class="utag">Cloudinary Upload</span><span class="utag">Categories</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#b45309"><span class="material-icons">gavel</span></div>
+                                <div class="update-body">
+                                    <h4>Provider Bidding System</h4>
+                                    <p>Providers can browse open jobs and submit bids with price and message. Customers can accept/reject bids. Awarded bids auto-create bookings.</p>
+                                    <div class="update-tags"><span class="utag">Bids</span><span class="utag">ProviderJobsActivity</span><span class="utag">Auto-booking</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#92400e"><span class="material-icons">notifications</span></div>
+                                <div class="update-body">
+                                    <h4>Real-Time Notifications</h4>
+                                    <p>NotificationsActivity with live Firestore listener. Push-style in-app notifications for booking updates, bid acceptances, and chat messages. Unread badge on nav bar.</p>
+                                    <div class="update-tags"><span class="utag">Notifications</span><span class="utag">Real-Time</span><span class="utag">Firestore Listener</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 1: Core -->
+                    <div class="update-phase">
+                        <div class="phase-tag phase-1">Phase 1 · Foundation</div>
+                        <h3 class="phase-title">🚀 Core Platform</h3>
+                        <div class="update-cards">
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#4f46e5"><span class="material-icons">people</span></div>
+                                <div class="update-body">
+                                    <h4>User & Provider Onboarding</h4>
+                                    <p>Firebase Auth login/register with role selection (Customer/Provider). SessionManager persists role. Providers get profile photo upload via Cloudinary.</p>
+                                    <div class="update-tags"><span class="utag">Firebase Auth</span><span class="utag">Roles</span><span class="utag">Cloudinary</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#4338ca"><span class="material-icons">design_services</span></div>
+                                <div class="update-body">
+                                    <h4>Skill Listings & Bookings</h4>
+                                    <p>Providers add skills with category, price, images. Customers browse, view detail and book. Booking status tracker with Pending → Accepted → Completed flow.</p>
+                                    <div class="update-tags"><span class="utag">Skills</span><span class="utag">Bookings</span><span class="utag">Status Tracker</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#3730a3"><span class="material-icons">chat</span></div>
+                                <div class="update-body">
+                                    <h4>Real-Time In-App Chat</h4>
+                                    <p>ChatActivity with Firestore real-time messages between customer and provider per booking. Supports image and file attachments. Message timestamps and read receipts.</p>
+                                    <div class="update-tags"><span class="utag">Chat</span><span class="utag">Firestore</span><span class="utag">Attachments</span></div>
+                                </div>
+                            </div>
+                            <div class="update-card">
+                                <div class="update-icon" style="background:#1e1b4b"><span class="material-icons">star</span></div>
+                                <div class="update-body">
+                                    <h4>Reviews & Trust System</h4>
+                                    <p>Customers leave star ratings and written reviews post-booking. Provider profiles show average rating, review count, trust score (Bronze/Silver/Gold/Platinum badges).</p>
+                                    <div class="update-tags"><span class="utag">Reviews</span><span class="utag">Ratings</span><span class="utag">Trust Score</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stats Summary -->
+                    <div class="updates-summary">
+                        <div class="summary-stat"><span class="material-icons">done_all</span><strong>20+</strong><span>Features Built</span></div>
+                        <div class="summary-stat"><span class="material-icons">layers</span><strong>5</strong><span>Dev Phases</span></div>
+                        <div class="summary-stat"><span class="material-icons">code</span><strong>50+</strong><span>Java Classes</span></div>
+                        <div class="summary-stat"><span class="material-icons">cloud</span><strong>Firebase</strong><span>Auth + Firestore + Storage</span></div>
+                        <div class="summary-stat"><span class="material-icons">translate</span><strong>3</strong><span>Languages Supported</span></div>
+                        <div class="summary-stat"><span class="material-icons">security</span><strong>Escrow</strong><span>Secure Payments</span></div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

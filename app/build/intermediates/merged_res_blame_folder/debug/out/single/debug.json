@@ -1,0 +1,458 @@
+[
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_message_sent.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_message_sent.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_status_open.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_status_open.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_message_received.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_message_received.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_person.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_person.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_job_detail.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_job_detail.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_skillconnect_logo.png.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_skillconnect_logo.png"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/color_bottom_nav_color.xml.flat",
+        "source": "com.skillconnect.app-main-47:/color/bottom_nav_color.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_stats_card.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_stats_card.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_notification.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_notification.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_close.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_close.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_visibility.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_visibility.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_notifications.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_notifications.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_circle_primary.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/circle_primary.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_fragment_bookings_list.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/fragment_bookings_list.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_provider_profile.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_provider_profile.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_payment_history.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_payment_history.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_briefcase.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_briefcase.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_lock.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_lock.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_search_bar.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_search_bar.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_skill_list.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_skill_list.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_job_post.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_job_post.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_nav_profile.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_nav_profile.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_my_skill.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_my_skill.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_bottom_sheet.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_bottom_sheet.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_circle_green.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_circle_green.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_notification.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_notification.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_category_design.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_category_design.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_provider_jobs.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_provider_jobs.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_booking_status.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_booking_status.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_profile_placeholder.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_profile_placeholder.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_admin_dashboard.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_admin_dashboard.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_gradient_accent.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_gradient_accent.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_profile.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_profile.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_category_education.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_category_education.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_provider_card.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_provider_card.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_circle_red.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_circle_red.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_login.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_register.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_register.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_chat.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_chat.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/menu_menu_skill_list.xml.flat",
+        "source": "com.skillconnect.app-main-47:/menu/menu_skill_list.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_category_tech.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_category_tech.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_wallet_gradient.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_wallet_gradient.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_booking_card.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_booking_card.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_status_circle_active.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/status_circle_active.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_transaction.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_transaction.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_fragment_chat_list.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/fragment_chat_list.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_verified.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_verified.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_payment.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_payment.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_add_skill.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_add_skill.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_role_badge.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_role_badge.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_customer_jobs.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_customer_jobs.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_chat.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_chat.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_payment.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_payment.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_payment.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_payment.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_add.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_add.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/menu_menu_skill_detail.xml.flat",
+        "source": "com.skillconnect.app-main-47:/menu/menu_skill_detail.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_splash.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_splash.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_chevron_right.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_chevron_right.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_withdraw.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_withdraw.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_skill_detail.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_skill_detail.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/menu_menu_main.xml.flat",
+        "source": "com.skillconnect.app-main-47:/menu/menu_main.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_new_job.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_new_job.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_wallet.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_wallet.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_back.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_back.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_category_business.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_category_business.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_wallet.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_wallet.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/xml_file_paths.xml.flat",
+        "source": "com.skillconnect.app-main-47:/xml/file_paths.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_fragment_home_provider.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/fragment_home_provider.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_circle_blue.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_circle_blue.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_jobs.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_jobs.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_dialog_review.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/dialog_review.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/menu_menu_bottom_nav.xml.flat",
+        "source": "com.skillconnect.app-main-47:/menu/menu_bottom_nav.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_nav_chat.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_nav_chat.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_mic.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_mic.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_category_software.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_category_software.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_bubble_sent.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_bubble_sent.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_my_skills.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_my_skills.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_category_card.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_category_card.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_send.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_send.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_transaction_history.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_transaction_history.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_verification.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_verification.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_report.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_report.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_chip_background.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/chip_background.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_status_circle_inactive.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/status_circle_inactive.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_circle.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_circle.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_nav_home.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_nav_home.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_circle_accent.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_circle_accent.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_settings.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_settings.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_share.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_share.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_circle_primary.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_circle_primary.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_fragment_home_customer.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/fragment_home_customer.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_chat_thread.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_chat_thread.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_bid.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_bid.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_search.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_chart.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_chart.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_item_skill_card.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/item_skill_card.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_circle_orange.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_circle_orange.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_star.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_star.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_nav_bookings.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_nav_bookings.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_visibility_off.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_visibility_off.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_nav_search.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_nav_search.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_bubble_received.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_bubble_received.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_gradient_primary.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_gradient_primary.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_login.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_login.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_settings.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_settings.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_main.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_email.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_email.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_logo_placeholder.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_logo_placeholder.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_category_marketing.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_category_marketing.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_bg_avatar.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/bg_avatar.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_edit_profile.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_edit_profile.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_bottom_sheet_filter.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/bottom_sheet_filter.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/drawable_ic_help.xml.flat",
+        "source": "com.skillconnect.app-main-47:/drawable/ic_help.xml"
+    },
+    {
+        "merged": "com.skillconnect.app-merged_res-45:/layout_activity_payment_receipt.xml.flat",
+        "source": "com.skillconnect.app-main-47:/layout/activity_payment_receipt.xml"
+    }
+]

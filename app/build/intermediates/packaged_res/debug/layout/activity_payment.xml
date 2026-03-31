@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:colorBackground">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/bg_gradient_primary"
+            app:title="Payment Demo"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_close"
+            app:navigationIconTint="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!-- Payment Form State -->
+        <LinearLayout
+            android:id="@+id/layoutPaymentForm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="visible">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+                    
+                    <TextView
+                        android:id="@+id/tvJobTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:fontFamily="sans-serif-medium"
+                        tools:text="App Development" />
+                        
+                    <TextView
+                        android:id="@+id/tvProviderName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="?android:textColorSecondary"
+                        tools:text="Jane Doe" />
+                        
+                    <TextView
+                        android:id="@+id/tvAmount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:textSize="28sp"
+                        android:textColor="?attr/colorPrimary"
+                        android:fontFamily="sans-serif-bold"
+                        tools:text="₹1500" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Select Payment Method"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="?android:textColorPrimary"/>
+
+            <RadioGroup
+                android:id="@+id/rgPaymentMethod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp">
+                
+                <RadioButton
+                    android:id="@+id/rbUPI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="UPI (Demo)"
+                    android:checked="true"/>
+                    
+                <RadioButton
+                    android:id="@+id/rbWallet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="SkillConnect Wallet"/>
+                    
+                <RadioButton
+                    android:id="@+id/rbCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="Credit/Debit Card (Demo)"/>
+                    
+                <RadioButton
+                    android:id="@+id/rbCash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="Cash on Service"/>
+            </RadioGroup>
+
+            <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPay"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Pay Securely"
+                android:textSize="16sp"
+                app:cornerRadius="12dp"/>
+        </LinearLayout>
+
+        <!-- Payment Result State -->
+        <LinearLayout
+            android:id="@+id/layoutPaymentResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="32dp"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvResultIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="80sp"
+                tools:text="✅"/>
+                
+            <TextView
+                android:id="@+id/tvResultTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:textSize="24sp"
+                android:fontFamily="sans-serif-bold"
+                android:textColor="?android:textColorPrimary"
+                android:gravity="center"
+                tools:text="Payment Successful!"/>
+                
+            <TextView
+                android:id="@+id/tvResultMsg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:textColor="?android:textColorSecondary"
+                android:gravity="center"
+                android:lineSpacingExtra="4dp"
+                tools:text="₹1500 paid via UPI.\nTxn ID: TXN123456789"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnViewReceipt"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="48dp"
+                android:text="View Receipt"
+                app:cornerRadius="12dp"/>
+                
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGoHome"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:text="Back to Dashboard"
+                app:cornerRadius="12dp"/>
+        </LinearLayout>
+
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

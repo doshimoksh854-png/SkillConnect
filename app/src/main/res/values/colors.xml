@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material Design 3 - Primary Colors (Deep Indigo) -->
+    <color name="md_theme_light_primary">#3F51B5</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#DEE0FF</color>
+    <color name="md_theme_light_onPrimaryContainer">#00105C</color>
+
+    <!-- Secondary Colors (Vibrant Teal) -->
+    <color name="md_theme_light_secondary">#00BFA5</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#C8FFF4</color>
+    <color name="md_theme_light_onSecondaryContainer">#00382E</color>
+
+    <!-- Tertiary Colors (Coral Accent) -->
+    <color name="md_theme_light_tertiary">#FF6E40</color>
+    <color name="md_theme_light_onTertiary">#FFFFFF</color>
+    <color name="md_theme_light_tertiaryContainer">#FFDBD0</color>
+    <color name="md_theme_light_onTertiaryContainer">#3B0800</color>
+
+    <!-- Error Colors -->
+    <color name="md_theme_light_error">#BA1A1A</color>
+    <color name="md_theme_light_errorContainer">#FFDAD6</color>
+    <color name="md_theme_light_onError">#FFFFFF</color>
+    <color name="md_theme_light_onErrorContainer">#410002</color>
+
+    <!-- Background Colors -->
+    <color name="md_theme_light_background">#F8F9FE</color>
+    <color name="md_theme_light_onBackground">#1A1C2E</color>
+
+    <!-- Surface Colors -->
+    <color name="md_theme_light_surface">#FFFFFF</color>
+    <color name="md_theme_light_onSurface">#1A1C2E</color>
+    <color name="md_theme_light_surfaceVariant">#E8EAF6</color>
+    <color name="md_theme_light_onSurfaceVariant">#44464F</color>
+
+    <!-- Outline -->
+    <color name="md_theme_light_outline">#74777F</color>
+    <color name="md_theme_light_outlineVariant">#C4C6D0</color>
+
+    <!-- Shadow and other -->
+    <color name="md_theme_light_shadow">#000000</color>
+    <color name="md_theme_light_inverseSurface">#2E3047</color>
+    <color name="md_theme_light_inverseOnSurface">#F0F0FF</color>
+    <color name="md_theme_light_inversePrimary">#BAC3FF</color>
+
+    <!-- Dark Theme Colors -->
+    <color name="md_theme_dark_primary">#BAC3FF</color>
+    <color name="md_theme_dark_onPrimary">#0A1A80</color>
+    <color name="md_theme_dark_primaryContainer">#293EA0</color>
+    <color name="md_theme_dark_onPrimaryContainer">#DEE0FF</color>
+
+    <color name="md_theme_dark_secondary">#4EDBC5</color>
+    <color name="md_theme_dark_onSecondary">#003B33</color>
+    <color name="md_theme_dark_secondaryContainer">#00574C</color>
+    <color name="md_theme_dark_onSecondaryContainer">#C8FFF4</color>
+
+    <color name="md_theme_dark_tertiary">#FFB59F</color>
+    <color name="md_theme_dark_onTertiary">#5C1800</color>
+    <color name="md_theme_dark_tertiaryContainer">#802800</color>
+    <color name="md_theme_dark_onTertiaryContainer">#FFDBD0</color>
+
+    <color name="md_theme_dark_error">#FFB4AB</color>
+    <color name="md_theme_dark_errorContainer">#93000A</color>
+    <color name="md_theme_dark_onError">#690005</color>
+    <color name="md_theme_dark_onErrorContainer">#FFDAD6</color>
+
+    <color name="md_theme_dark_background">#121326</color>
+    <color name="md_theme_dark_onBackground">#E3E1F0</color>
+
+    <color name="md_theme_dark_surface">#1A1C2E</color>
+    <color name="md_theme_dark_onSurface">#E3E1F0</color>
+    <color name="md_theme_dark_surfaceVariant">#44464F</color>
+    <color name="md_theme_dark_onSurfaceVariant">#C4C6D0</color>
+
+    <color name="md_theme_dark_outline">#8E9099</color>
+    <color name="md_theme_dark_outlineVariant">#44464F</color>
+
+    <color name="md_theme_dark_shadow">#000000</color>
+    <color name="md_theme_dark_inverseSurface">#E3E1F0</color>
+    <color name="md_theme_dark_inverseOnSurface">#2E3047</color>
+    <color name="md_theme_dark_inversePrimary">#3F51B5</color>
+
+    <!-- Gradient Colors -->
+    <color name="gradient_start">#3F51B5</color>
+    <color name="gradient_center">#5C6BC0</color>
+    <color name="gradient_end">#7986CB</color>
+    <color name="gradient_accent_start">#00BFA5</color>
+    <color name="gradient_accent_end">#64FFDA</color>
+
+    <!-- Semantic Colors -->
+    <color name="success">#00C853</color>
+    <color name="warning">#FFAB00</color>
+    <color name="info">#2979FF</color>
+
+    <!-- Status Colors for Booking -->
+    <color name="status_pending">#FFA726</color>
+    <color name="status_accepted">#66BB6A</color>
+    <color name="status_in_progress">#42A5F5</color>
+    <color name="status_completed">#00C853</color>
+    <color name="status_cancelled">#EF5350</color>
+
+    <!-- Rating Color -->
+    <color name="rating_star">#FFD600</color>
+
+    <!-- Category Card Colors -->
+    <color name="category_software">#E8EAF6</color>
+    <color name="category_tech">#E0F2F1</color>
+    <color name="category_design">#FFF3E0</color>
+    <color name="category_education">#FCE4EC</color>
+    <color name="category_marketing">#E8F5E9</color>
+    <color name="category_business">#F3E5F5</color>
+
+    <!-- WhatsApp Chat Colors -->
+    <color name="whatsapp_bg">#ECE5DD</color>
+    <color name="whatsapp_sent">#DCF8C6</color>
+    <color name="whatsapp_received">#FFFFFF</color>
+
+    <!-- Transparent variants -->
+    <color name="scrim">#80000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="black_10">#1A000000</color>
+    <color name="primary_10">#1A3F51B5</color>
+</resources>

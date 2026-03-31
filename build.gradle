@@ -1,0 +1,12 @@
+// Top-level build file — legacy buildscript format
+// (avoids Groovy-ASM / Java 21 bytecode incompatibility with plugins{} DSL)
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'com.google.gms:google-services:4.3.15'
+    }
+}

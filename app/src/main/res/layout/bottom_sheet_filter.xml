@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="?attr/colorSurface">
+
+    <!-- Handle pill -->
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:background="@color/md_theme_light_outlineVariant"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filter &amp; Sort Skills"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingBottom="20dp" />
+
+    <!-- Sort Section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SORT BY"
+        android:textSize="11sp"
+        android:letterSpacing="0.1"
+        android:textColor="?attr/colorPrimary"
+        android:paddingBottom="8dp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <RadioGroup
+        android:id="@+id/radioSort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton android:id="@+id/rbRating"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="⭐  Highest Rated" android:textSize="15sp"
+            android:gravity="center_vertical"/>
+
+        <RadioButton android:id="@+id/rbPriceAsc"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="💰  Price: Low to High" android:textSize="15sp"
+            android:gravity="center_vertical"/>
+
+        <RadioButton android:id="@+id/rbPriceDesc"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="💎  Price: High to Low" android:textSize="15sp"
+            android:gravity="center_vertical"/>
+
+    </RadioGroup>
+
+    <!-- Divider -->
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:layout_marginTop="12dp" android:layout_marginBottom="12dp"
+        android:background="?attr/colorOutlineVariant"/>
+
+    <!-- Max Price Section using standard SeekBar (max ₹5000) -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MAXIMUM PRICE"
+        android:textSize="11sp"
+        android:letterSpacing="0.1"
+        android:textColor="?attr/colorPrimary"
+        android:paddingBottom="4dp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <TextView
+        android:id="@+id/tvPriceRange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Up to ₹5000+"
+        android:textSize="14sp"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingBottom="4dp"/>
+
+    <SeekBar
+        android:id="@+id/seekBarPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="50"
+        android:progress="50"/>
+
+    <!-- Divider -->
+    <View android:layout_width="match_parent" android:layout_height="1dp"
+        android:layout_marginTop="12dp" android:layout_marginBottom="12dp"
+        android:background="?attr/colorOutlineVariant"/>
+
+    <!-- Min Rating Section using standard SeekBar (0-5 stars, 10 steps) -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MINIMUM RATING"
+        android:textSize="11sp"
+        android:letterSpacing="0.1"
+        android:textColor="?attr/colorPrimary"
+        android:paddingBottom="4dp"
+        android:fontFamily="sans-serif-medium"/>
+
+    <TextView
+        android:id="@+id/tvMinRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Any rating"
+        android:textSize="14sp"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingBottom="4dp"/>
+
+    <SeekBar
+        android:id="@+id/seekBarRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:progress="0"/>
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnResetFilter"
+            style="@style/Widget.SkillConnect.Button.Outlined"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Reset" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnApplyFilter"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="2"
+            android:text="Apply Filters" />
+
+    </LinearLayout>
+
+</LinearLayout>

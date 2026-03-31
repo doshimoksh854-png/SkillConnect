@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.skillconnect"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="24"
+        android:targetSdkVersion="34" />
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- Storage permissions for image/file upload in chat -->
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data
+                android:mimeType="*/*"
+                android:scheme="*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data
+                android:host="pay"
+                android:mimeType="*/*"
+                android:scheme="upi" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+
+            <data android:mimeType="*/*" />
+        </intent>
+        <intent>
+            <action android:name="rzp.device_token.share" />
+        </intent>
+        <!-- Needs to be explicitly declared on Android R+ -->
+        <package android:name="com.google.android.apps.maps" />
+    </queries>
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <permission
+        android:name="com.skillconnect.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.skillconnect.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+
+    <application
+        android:name="com.skillconnect.SkillConnectApp"
+        android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:extractNativeLibs="false"
+        android:icon="@drawable/ic_skillconnect_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/ic_skillconnect_logo"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SkillConnect" >
+
+        <!-- Splash Activity - Launcher -->
+        <activity
+            android:name="com.skillconnect.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.SkillConnect.Splash" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.skillconnect.LoginActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.skillconnect.RegisterActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.skillconnect.MainActivity"
+            android:exported="false"
+            android:launchMode="singleTop" />
+        <activity
+            android:name="com.skillconnect.SkillListActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity" />
+        <activity
+            android:name="com.skillconnect.SkillDetailActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.SkillListActivity" />
+        <activity
+            android:name="com.skillconnect.BookingStatusActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity" />
+        <activity
+            android:name="com.skillconnect.ProfileActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity" />
+
+        <!-- New Activities -->
+        <activity
+            android:name="com.skillconnect.AddSkillActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.skillconnect.MySkillsActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.ProfileActivity" />
+        <activity
+            android:name="com.skillconnect.ProviderProfileActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity" />
+        <activity
+            android:name="com.skillconnect.EditProfileActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.ProfileActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.skillconnect.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.ProfileActivity" />
+        <activity
+            android:name="com.skillconnect.ChatActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Phase 2: Jobs & Bids -->
+        <activity
+            android:name="com.skillconnect.CustomerJobsActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity" />
+        <activity
+            android:name="com.skillconnect.ProviderJobsActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity" />
+        <activity
+            android:name="com.skillconnect.NewJobActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.CustomerJobsActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.skillconnect.JobDetailActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity" />
+
+        <!-- Phase 3: Payments & Wallet -->
+        <activity
+            android:name="com.skillconnect.PaymentActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.JobDetailActivity" />
+        <activity
+            android:name="com.skillconnect.PaymentHistoryActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.ProfileActivity" />
+        <activity
+            android:name="com.skillconnect.WalletActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity" />
+        <activity
+            android:name="com.skillconnect.TransactionHistoryActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.WalletActivity" />
+        <activity
+            android:name="com.skillconnect.PaymentReceiptActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.PaymentActivity" />
+        <activity
+            android:name="com.skillconnect.AdminDashboardActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.ProfileActivity" />
+
+        <!-- Phase 4: Notifications -->
+        <activity
+            android:name="com.skillconnect.NotificationsActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.MainActivity" />
+
+        <!-- Phase 5: Disputes & Verification -->
+        <activity
+            android:name="com.skillconnect.ReportActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.skillconnect.VerificationActivity"
+            android:exported="false"
+            android:parentActivityName="com.skillconnect.ProfileActivity" />
+
+        <!-- FileProvider for secure URI sharing (required for image picker on Android 7+) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.skillconnect.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <service
+            android:name="com.google.mlkit.common.internal.MlKitComponentDiscoveryService"
+            android:directBootAware="true"
+            android:exported="false" >
+            <meta-data
+                android:name="com.google.firebase.components:com.google.mlkit.nl.translate.NaturalLanguageTranslateRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.mlkit.common.internal.CommonComponentRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service>
+
+        <provider
+            android:name="com.google.mlkit.common.internal.MlKitInitProvider"
+            android:authorities="com.skillconnect.mlkitinitprovider"
+            android:exported="false"
+            android:initOrder="99" />
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="com.skillconnect.androidx-startup"
+            android:exported="false" >
+            <meta-data
+                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+                android:value="androidx.startup" />
+            <meta-data
+                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+                android:value="androidx.startup" />
+        </provider>
+
+        <receiver
+            android:name="com.razorpay.RzpTokenReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="rzp.device_token.share" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.razorpay.CheckoutActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@style/CheckoutTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.razorpay.plugin.googlepay_all"
+            android:value="com.razorpay.RzpGpayMerged" /> <!-- Needs to be explicitly declared on P+ -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity
+            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="firebase.auth"
+                    android:path="/"
+                    android:scheme="genericidp" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="firebase.auth"
+                    android:path="/"
+                    android:scheme="recaptcha" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="com.google.firebase.components.ComponentDiscoveryService"
+            android:directBootAware="true"
+            android:exported="false" >
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.firestore.FirebaseFirestoreKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.storage.FirebaseStorageKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.storage.StorageRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.appcheck.FirebaseAppCheckRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.ktx.FirebaseCommonLegacyRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+            <meta-data
+                android:name="com.google.firebase.components:com.google.firebase.FirebaseCommonKtxRegistrar"
+                android:value="com.google.firebase.components.ComponentRegistrar" />
+        </service>
+
+        <activity
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--
+            Service handling Google Sign-In user revocation. For apps that do not integrate with
+            Google Sign-In, this service will never be started.
+        -->
+        <service
+            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+            android:exported="true"
+            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" />
+
+        <activity
+            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <provider
+            android:name="com.google.firebase.provider.FirebaseInitProvider"
+            android:authorities="com.skillconnect.firebaseinitprovider"
+            android:directBootAware="true"
+            android:exported="false"
+            android:initOrder="100" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <service
+            android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery"
+            android:exported="false" >
+            <meta-data
+                android:name="backend:com.google.android.datatransport.cct.CctBackendFactory"
+                android:value="cct" />
+        </service>
+
+        <receiver
+            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+            android:directBootAware="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.DUMP" >
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" >
+        </service>
+
+        <receiver
+            android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"
+            android:exported="false" />
+    </application>
+
+</manifest>

@@ -1,0 +1,123 @@
+// Firestore Security Rules for SkillConnect
+// Deploy via Firebase Console → Firestore → Rules
+// Or via CLI: firebase deploy --only firestore:rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Helper Functions ──────────────────────────────────────────
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // ─── GLOBAL ADMIN OVERRIDE ─────────────────────────────────────
+    // If you are an Admin, you have full access to everything.
+    match /{document=**} {
+      allow read, write: if isAdmin();
+    }
+
+    // ─── Users ─────────────────────────────────────────────────────
+    // Users can only read/write their own profile
+    match /users/{userId} {
+      allow read:   if isAuthenticated();
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+      allow delete: if false; // Users cannot delete accounts via client
+    }
+
+    // ─── Skills ────────────────────────────────────────────────────
+    // Anyone authenticated can read skills; only the provider who owns it can write
+    match /skills/{skillId} {
+      allow read:   if isAuthenticated();
+      allow create: if isAuthenticated()
+                    && request.resource.data.providerId == request.auth.uid;
+      allow update: if isAuthenticated()
+                    && resource.data.providerId == request.auth.uid;
+      allow delete: if isAuthenticated()
+                    && resource.data.providerId == request.auth.uid;
+    }
+
+    // ─── Bookings ──────────────────────────────────────────────────
+    // Only the customer or provider involved can read a booking
+    match /bookings/{bookingId} {
+      allow read:   if isAuthenticated()
+                    && (resource.data.userId == request.auth.uid
+                        || resource.data.providerId == request.auth.uid);
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated()
+                    && (resource.data.userId == request.auth.uid
+                        || resource.data.providerId == request.auth.uid);
+      allow delete: if false;
+    }
+
+    // ─── Reviews ───────────────────────────────────────────────────
+    match /reviews/{reviewId} {
+      allow read:   if isAuthenticated();
+      allow create: if isAuthenticated()
+                    && request.resource.data.reviewerId == request.auth.uid;
+      allow update: if false; // Reviews cannot be edited after posting
+      allow delete: if false;
+    }
+
+    // ─── Jobs ──────────────────────────────────────────────────────
+    // Any authenticated user can read jobs; only the customer who posted can update
+    match /jobs/{jobId} {
+      allow read:   if isAuthenticated();
+      allow create: if isAuthenticated()
+                    && request.resource.data.customerId == request.auth.uid;
+      allow update: if isAuthenticated()
+                    && resource.data.customerId == request.auth.uid;
+      allow delete: if false;
+    }
+
+    // ─── Bids ──────────────────────────────────────────────────────
+    // Providers can create bids; job owner + bid owner can read
+    match /bids/{bidId} {
+      allow read:   if isAuthenticated();
+      allow create: if isAuthenticated()
+                    && request.resource.data.providerId == request.auth.uid;
+      allow update: if isAuthenticated(); // For status updates (accept/reject)
+      allow delete: if false;
+    }
+
+    // ─── Chats ─────────────────────────────────────────────────────
+    match /chats/{chatId} {
+      allow read, write: if isAuthenticated();
+      
+      match /messages/{messageId} {
+        allow read, write: if isAuthenticated();
+      }
+    }
+
+    // ─── Payments ──────────────────────────────────────────────────
+    match /payments/{paymentId} {
+      allow read:   if isAuthenticated()
+                    && (resource.data.customerId == request.auth.uid
+                        || resource.data.providerId == request.auth.uid);
+      allow create: if isAuthenticated();
+      allow update: if false; // Payment records are immutable
+      allow delete: if false;
+    }
+
+    // ─── Admins ─────────────────────────────────────────────────
+    match /admins/{adminId} {
+      allow read:   if isAuthenticated();
+      allow create: if isAuthenticated(); // First admin auto-creates
+      allow update, delete: if false;
+    }
+
+    // ─── Deny everything else ──────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="?attr/colorOutlineVariant">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Top Row: Avatar + Name + Bid Amount -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="10dp">
+
+            <!-- Avatar Circle -->
+            <TextView
+                android:id="@+id/tvAvatar"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/bg_avatar"
+                android:gravity="center"
+                android:text="P"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:fontFamily="sans-serif-bold"
+                android:layout_marginEnd="12dp" />
+
+            <!-- Provider Name + Status -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvProviderName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Provider Name"
+                    android:textSize="15sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="pending"
+                    android:textSize="12sp"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:fontFamily="sans-serif" />
+            </LinearLayout>
+
+            <!-- Bid Amount -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="end">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BID"
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:gravity="end"
+                    android:letterSpacing="0.1" />
+
+                <TextView
+                    android:id="@+id/tvBidAmount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₹5,000"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif-bold"
+                    android:textColor="?attr/colorPrimary" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Proposal Text -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PROPOSAL"
+            android:textSize="10sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:letterSpacing="0.1"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvProposal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Provider's proposal goes here..."
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:lineSpacingExtra="3dp"
+            android:layout_marginBottom="14dp" />
+
+        <!-- Action Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnChatBid"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="💬 Chat"
+                android:textSize="13sp"
+                android:layout_marginEnd="8dp"
+                app:cornerRadius="20dp"
+                android:paddingHorizontal="16dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAcceptBid"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:text="✓ Accept"
+                android:textSize="13sp"
+                app:cornerRadius="20dp"
+                android:paddingHorizontal="16dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

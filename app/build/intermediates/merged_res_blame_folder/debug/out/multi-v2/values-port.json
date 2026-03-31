@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.skillconnect.app-mergeDebugResources-43:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-4\\eda5353f09d0fd0cdcbdae6bf1347ead\\transformed\\appcompat-1.6.1\\res\\values-port\\values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}

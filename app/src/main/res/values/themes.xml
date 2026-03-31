@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base application theme using Material Design 3 -->
+    <style name="Base.Theme.SkillConnect" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Primary Colors -->
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+
+        <!-- Secondary Colors -->
+        <item name="colorSecondary">@color/md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
+
+        <!-- Tertiary Colors -->
+        <item name="colorTertiary">@color/md_theme_light_tertiary</item>
+        <item name="colorOnTertiary">@color/md_theme_light_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/md_theme_light_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/md_theme_light_onTertiaryContainer</item>
+
+        <!-- Error Colors -->
+        <item name="colorError">@color/md_theme_light_error</item>
+        <item name="colorOnError">@color/md_theme_light_onError</item>
+        <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
+        <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
+
+        <!-- Background Colors -->
+        <item name="android:colorBackground">@color/md_theme_light_background</item>
+        <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
+
+        <!-- Surface Colors -->
+        <item name="colorSurface">@color/md_theme_light_surface</item>
+        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">@color/md_theme_light_outline</item>
+        <item name="colorOutlineVariant">@color/md_theme_light_outlineVariant</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/md_theme_light_primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Shape theming - rounded corners -->
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.SkillConnect.SmallComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.SkillConnect.MediumComponent</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.SkillConnect.LargeComponent</item>
+
+        <!-- Button styles -->
+        <item name="materialButtonStyle">@style/Widget.SkillConnect.Button</item>
+        
+        <!-- Card style -->
+        <item name="materialCardViewStyle">@style/Widget.SkillConnect.CardView</item>
+    </style>
+
+    <style name="Theme.SkillConnect" parent="Base.Theme.SkillConnect" />
+
+    <!-- Splash screen theme with primary background -->
+    <style name="Theme.SkillConnect.Splash" parent="Theme.SkillConnect">
+        <item name="android:windowBackground">@color/md_theme_light_primary</item>
+        <item name="android:statusBarColor">@color/md_theme_light_primary</item>
+    </style>
+
+    <!-- Shape Appearances -->
+    <style name="ShapeAppearance.SkillConnect.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="ShapeAppearance.SkillConnect.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="ShapeAppearance.SkillConnect.LargeComponent" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <!-- Button styles -->
+    <style name="Widget.SkillConnect.Button" parent="Widget.Material3.Button">
+        <item name="cornerRadius">12dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.SkillConnect.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">12dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Widget.SkillConnect.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!-- Card styles -->
+    <style name="Widget.SkillConnect.CardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">@color/md_theme_light_surface</item>
+    </style>
+
+    <!-- TextInputLayout style -->
+    <style name="Widget.SkillConnect.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxCornerRadiusTopStart">12dp</item>
+        <item name="boxCornerRadiusTopEnd">12dp</item>
+        <item name="boxCornerRadiusBottomStart">12dp</item>
+        <item name="boxCornerRadiusBottomEnd">12dp</item>
+        <item name="hintTextColor">@color/md_theme_light_primary</item>
+    </style>
+
+    <!-- TopAppBar style -->
+    <style name="Widget.SkillConnect.TopAppBar" parent="Widget.Material3.AppBarLayout">
+        <item name="android:background">@color/md_theme_light_surface</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <!-- Text styles -->
+    <style name="TextAppearance.SkillConnect.Headline1" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">32sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/md_theme_light_onSurface</item>
+    </style>
+
+    <style name="TextAppearance.SkillConnect.Headline2" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/md_theme_light_onSurface</item>
+    </style>
+
+    <style name="TextAppearance.SkillConnect.Body1" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/md_theme_light_onSurface</item>
+    </style>
+
+    <style name="TextAppearance.SkillConnect.Body2" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/md_theme_light_onSurfaceVariant</item>
+    </style>
+
+    <style name="TextAppearance.SkillConnect.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/md_theme_light_onSurfaceVariant</item>
+    </style>
+</resources>

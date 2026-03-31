@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App Name -->
+    <string name="app_name">SkillConnect</string>
+    <string name="app_tagline">Bridging the gap between talent and demand</string>
+
+    <!-- Common -->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="search">Search</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="loading">Loading…</string>
+
+    <!-- Authentication -->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="logout">Logout</string>
+    <string name="new_user_register">New user? Register</string>
+    <string name="already_have_account">Already have an account? Login</string>
+    <string name="email_hint">Enter your email</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="name_hint">Enter your full name</string>
+    <string name="select_role">Select Your Role</string>
+    <string name="role_provider">I want to offer services</string>
+    <string name="role_customer">I want to hire services</string>
+
+    <!-- Home - Customer View -->
+    <string name="welcome_back">Welcome back!</string>
+    <string name="search_skills">Search for skills or services</string>
+    <string name="browse_categories">Browse Categories</string>
+    <string name="featured_providers">Featured Providers</string>
+    <string name="view_all">View All</string>
+
+    <!-- Categories -->
+    <string name="category_software_dev">Software Development</string>
+    <string name="category_tech_support">Tech Support</string>
+    <string name="category_design">Creative &amp; Design</string>
+    <string name="category_education">Education</string>
+    <string name="category_marketing">Digital Marketing</string>
+    <string name="category_business">Business &amp; Remote IT</string>
+
+    <!-- Home - Provider View -->
+    <string name="dashboard">Dashboard</string>
+    <string name="add_new_skill">Add New Skill</string>
+    <string name="active_requests">Active Requests</string>
+    <string name="completed_jobs">Completed Jobs</string>
+    <string name="average_rating">Average Rating</string>
+    <string name="my_skills">My Skills</string>
+    <string name="earnings">Earnings</string>
+
+    <!-- Skill Listing -->
+    <string name="skills">Skills</string>
+    <string name="filter">Filter</string>
+    <string name="sort">Sort</string>
+    <string name="view_details">View Details</string>
+    <string name="no_skills_found">No skills found</string>
+    <string name="price_from">From</string>
+
+    <!-- Skill Detail -->
+    <string name="skill_description">Description</string>
+    <string name="about_provider">About the Provider</string>
+    <string name="reviews">Reviews</string>
+    <string name="book_now">Book Now</string>
+    <string name="contact_provider">Contact Provider</string>
+    <string name="share">Share</string>
+    <string name="rating">Rating</string>
+    <string name="no_reviews">No reviews yet</string>
+
+    <!-- Booking Status -->
+    <string name="booking_status">Booking Status</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_accepted">Accepted</string>
+    <string name="status_in_progress">In Progress</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_cancelled">Cancelled</string>
+    <string name="booking_id">Booking ID</string>
+    <string name="booked_on">Booked on</string>
+    <string name="estimated_completion">Estimated Completion</string>
+
+    <!-- Profile -->
+    <string name="profile">Profile</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="my_bookings">My Bookings</string>
+    <string name="settings">Settings</string>
+    <string name="help_support">Help &amp; Support</string>
+    <string name="about">About</string>
+    <string name="switch_to_provider">Switch to Provider Mode</string>
+    <string name="switch_to_customer">Switch to Customer Mode</string>
+    <string name="logout_confirmation">Are you sure you want to logout?</string>
+
+    <!-- Stats -->
+    <string name="stats_active">%d Active</string>
+    <string name="stats_completed">%d Completed</string>
+    <string name="stats_rating">%.1f Rating</string>
+
+    <!-- Placeholders -->
+    <string name="sample_skill_title">Full Stack Web Development</string>
+    <string name="sample_provider_name">John Doe</string>
+    <string name="sample_description">I will create a professional website for your business with responsive design and modern features.</string>
+    <string name="sample_price">$500</string>
+
+    <!-- Error Messages -->
+    <string name="error_empty_email">Please enter your email</string>
+    <string name="error_empty_password">Please enter your password</string>
+    <string name="error_empty_name">Please enter your name</string>
+    <string name="error_invalid_email">Please enter a valid email</string>
+    <string name="error_network">Network error. Please try again.</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
+
+    <!-- Success Messages -->
+    <string name="success_login">Login successful!</string>
+    <string name="success_register">Registration successful!</string>
+    <string name="success_booking">Booking created successfully!</string>
+
+    <!-- Content Descriptions (for accessibility) -->
+    <string name="cd_app_logo">SkillConnect Logo</string>
+    <string name="cd_profile_image">Profile Image</string>
+    <string name="cd_category_icon">Category Icon</string>
+    <string name="cd_back_button">Back</string>
+    <string name="cd_menu">Menu</string>
+    <string name="cd_search">Search</string>
+    <string name="cd_filter">Filter</string>
+
+    <!-- Phase 3: Booking Management -->
+    <string name="my_bookings_title">My Bookings</string>
+    <string name="no_bookings">No bookings yet</string>
+    <string name="no_bookings_sub">Your bookings will appear here</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+    <string name="complete">Complete</string>
+    <string name="cancel_booking">Cancel</string>
+    <string name="status_rejected">Rejected</string>
+
+    <!-- Phase 3: Reviews -->
+    <string name="leave_review">Leave Review</string>
+    <string name="review_hint">Write your review…</string>
+    <string name="submit_review">Submit Review</string>
+    <string name="review_submitted">Review submitted!</string>
+    <string name="rate_this_service">Rate this service</string>
+
+    <!-- Phase 3: Provider Dashboard -->
+    <string name="total_earnings">Total Earnings</string>
+    <string name="recent_bookings">Recent Bookings</string>
+    <string name="no_recent_bookings">No recent bookings</string>
+
+    <!-- Phase 3: Dark Mode -->
+    <string name="dark_mode">Dark Mode</string>
+    <string name="appearance">Appearance</string>
+</resources>
+
+
+

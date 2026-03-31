@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Material 3 Dark Theme Colors -->
+    <color name="md_theme_light_primary">#B0BEC5</color>
+    <color name="md_theme_light_onPrimary">#1B1B1F</color>
+    <color name="md_theme_light_primaryContainer">#303F9F</color>
+    <color name="md_theme_light_onPrimaryContainer">#E8EAF6</color>
+
+    <color name="md_theme_light_secondary">#80CBC4</color>
+    <color name="md_theme_light_onSecondary">#1B1B1F</color>
+    <color name="md_theme_light_secondaryContainer">#00695C</color>
+    <color name="md_theme_light_onSecondaryContainer">#B2DFDB</color>
+
+    <color name="md_theme_light_tertiary">#FFB74D</color>
+    <color name="md_theme_light_onTertiary">#1B1B1F</color>
+    <color name="md_theme_light_tertiaryContainer">#E65100</color>
+    <color name="md_theme_light_onTertiaryContainer">#FFE0B2</color>
+
+    <color name="md_theme_light_error">#EF9A9A</color>
+    <color name="md_theme_light_onError">#1B1B1F</color>
+    <color name="md_theme_light_errorContainer">#B71C1C</color>
+    <color name="md_theme_light_onErrorContainer">#FFCDD2</color>
+
+    <color name="md_theme_light_background">#121212</color>
+    <color name="md_theme_light_onBackground">#E6E1E5</color>
+    <color name="md_theme_light_surface">#1E1E1E</color>
+    <color name="md_theme_light_onSurface">#E6E1E5</color>
+    <color name="md_theme_light_surfaceVariant">#2D2D2D</color>
+    <color name="md_theme_light_onSurfaceVariant">#CAC4D0</color>
+    <color name="md_theme_light_outline">#938F99</color>
+    <color name="md_theme_light_outlineVariant">#49454F</color>
+
+    <!-- Category Card Colors (darker) -->
+    <color name="category_software">#1A237E</color>
+    <color name="category_tech">#004D40</color>
+    <color name="category_design">#E65100</color>
+    <color name="category_education">#880E4F</color>
+    <color name="category_marketing">#1B5E20</color>
+    <color name="category_business">#4A148C</color>
+
+    <!-- Transparent variants (dark mode) -->
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="black_10">#1AFFFFFF</color>
+    <color name="primary_10">#1A7986CB</color>
+</resources>
