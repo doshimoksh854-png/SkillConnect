@@ -16,6 +16,9 @@ local.properties
 *.log
 *.txt
 *.zip
+*.pdf
+*.pptx
+*.ppt
 .vscode
 admin-dashboard/node_modules/
 admin-dashboard/dist/
