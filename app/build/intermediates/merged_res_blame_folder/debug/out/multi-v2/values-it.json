@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.skillconnect.app-mergeDebugResources-43:/values-it/values-it.xml",
+            "outputFile": "com.skillconnect.app-mergeDebugResources-49:/values-it/values-it.xml",
             "map": [
                 {
                     "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-4\\dd7b1b5d42380cca386712ad34c7ce64\\transformed\\core-1.12.0\\res\\values-it\\values-it.xml",

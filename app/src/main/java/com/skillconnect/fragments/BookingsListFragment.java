@@ -1,5 +1,6 @@
 package com.skillconnect.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,8 +90,16 @@ public class BookingsListFragment extends Fragment implements BookingAdapter.OnB
         });
     }
     @Override public void onComplete(Booking b) {
-        repo.updateBookingStatus(b.getDocumentId(), "completed", r -> {
-            if (isAdded()) Toast.makeText(getContext(), "Completed!", Toast.LENGTH_SHORT).show();
+        repo.updateBookingStatus(b.getDocumentId(), "ready_for_review", r -> {
+            if (isAdded()) {
+                Toast.makeText(getContext(), "Marked as done! Customer will review your work.", Toast.LENGTH_LONG).show();
+                // Notify customer
+                repo.createNotification(new com.skillconnect.models.Notification(
+                    b.getUserId(), "customer", "work_ready",
+                    "Work Ready for Review 🎯",
+                    "Provider has completed the work for '" + b.getSkillTitle() + "'. Please review and approve payment.",
+                    b.getDocumentId()), null);
+            }
             loadBookings();
         });
     }
@@ -108,13 +117,80 @@ public class BookingsListFragment extends Fragment implements BookingAdapter.OnB
                     Toast.makeText(getContext(), "Already reviewed", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                // Payment already done — show plain review dialog (no payment required)
                 ReviewDialogFragment d = ReviewDialogFragment.newInstance(
-                        b.getDocumentId(), b.getSkillId(), b.getSkillTitle());
+                        b.getDocumentId(), b.getSkillId(), b.getSkillTitle(),
+                        b.getProviderId(),
+                        b.getProviderName() != null ? b.getProviderName() : "Provider",
+                        b.getPrice(),
+                        false /* requirePayment */);
                 d.setOnReviewSubmittedListener(BookingsListFragment.this::loadBookings);
                 d.show(getParentFragmentManager(), "review");
             }
             @Override public void onError(String e) {}
         });
+    }
+
+    @Override public void onReviewWork(Booking b) {
+        // 'Review Work' button is now merged into the 'Pay Now' flow — this is a no-op fallback
+        onPayNow(b);
+    }
+
+    @Override
+    public void onPayNow(Booking b) {
+        String status = b.getStatus();
+
+        if ("awarded".equals(status)) {
+            // \u2500 Stage 1: Pay 10% booking deposit (bid just accepted, work not yet started) \u2500
+            double bookingFee = Math.ceil(b.getPrice() * 0.10);
+            android.content.Intent intent = new android.content.Intent(
+                    getContext(), com.skillconnect.PaymentActivity.class);
+            intent.putExtra("booking_id",    b.getDocumentId());
+            intent.putExtra("skill_id",      b.getSkillId() != null ? b.getSkillId() : "");
+            intent.putExtra("provider_id",   b.getProviderId());
+            intent.putExtra("provider_name", b.getProviderName() != null ? b.getProviderName() : "Provider");
+            intent.putExtra("job_title",     b.getSkillTitle());
+            intent.putExtra("amount",        bookingFee);
+            intent.putExtra("full_amount",   b.getPrice());
+            intent.putExtra("payment_type",  "booking_fee");
+            startActivity(intent);
+
+        } else {
+            // \u2500 Stage 2: Provider done \u2014 review required first, then pay remaining 90% \u2500
+            repo.hasReviewForBooking(b.getDocumentId(), new FirebaseRepository.Callback<Boolean>() {
+                @Override public void onSuccess(Boolean exists) {
+                    if (!isAdded()) return;
+                    double remaining = Math.ceil(b.getPrice() * 0.90);
+                    if (exists) {
+                        // Already reviewed \u2014 go straight to 90% payment
+                        android.content.Intent intent = new android.content.Intent(
+                                getContext(), com.skillconnect.PaymentActivity.class);
+                        intent.putExtra("booking_id",    b.getDocumentId());
+                        intent.putExtra("skill_id",      b.getSkillId() != null ? b.getSkillId() : "");
+                        intent.putExtra("provider_id",   b.getProviderId());
+                        intent.putExtra("provider_name", b.getProviderName() != null ? b.getProviderName() : "Provider");
+                        intent.putExtra("job_title",     b.getSkillTitle());
+                        intent.putExtra("amount",        remaining);
+                        intent.putExtra("full_amount",   b.getPrice());
+                        intent.putExtra("payment_type",  "final_payment");
+                        startActivity(intent);
+                    } else {
+                        // Must review first \u2014 dialog will forward to PaymentActivity with review data
+                        ReviewDialogFragment d = ReviewDialogFragment.newInstance(
+                                b.getDocumentId(), b.getSkillId(), b.getSkillTitle(),
+                                b.getProviderId(),
+                                b.getProviderName() != null ? b.getProviderName() : "Provider",
+                                remaining,
+                                true /* requirePayment */);
+                        d.setOnReviewSubmittedListener(BookingsListFragment.this::loadBookings);
+                        d.show(getParentFragmentManager(), "review_then_pay");
+                    }
+                }
+                @Override public void onError(String e) {
+                    Toast.makeText(getContext(), "Could not load booking info. Try again.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override public void onChat(Booking b) {

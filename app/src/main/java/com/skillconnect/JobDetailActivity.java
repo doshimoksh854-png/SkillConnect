@@ -103,12 +103,10 @@ public class JobDetailActivity extends AppCompatActivity {
             return;
         }
 
+        // Always show the FAB when a non-English language is selected,
+        // even if the model isn't downloaded yet. We'll download on demand.
+        fabTranslate.setVisibility(View.VISIBLE);
         String targetLang = langPrefManager.getLanguage();
-        if (translatorManager.isModelReady(targetLang)) {
-            fabTranslate.setVisibility(View.VISIBLE);
-        } else {
-            fabTranslate.setVisibility(View.GONE);
-        }
 
         fabTranslate.setOnClickListener(v -> {
             if (isTranslated) {
@@ -117,33 +115,47 @@ public class JobDetailActivity extends AppCompatActivity {
                 tvDescription.setText(originalDesc);
                 fabTranslate.setText("🌐 Translate");
                 isTranslated = false;
+            } else if (translatorManager.isModelReady(targetLang)) {
+                // Model ready — translate directly
+                performTranslation(targetLang);
+            } else if (translatorManager.isDownloadInProgress(targetLang)) {
+                Toast.makeText(this, "Translation model is still downloading, please wait…", Toast.LENGTH_SHORT).show();
             } else {
-                // Translate
-                fabTranslate.setText("⏳ Translating...");
+                // Model not downloaded yet — download first, then translate
+                fabTranslate.setText("⬇️ Downloading…");
                 fabTranslate.setEnabled(false);
+                Toast.makeText(this, "Downloading translation model (~30MB)…", Toast.LENGTH_LONG).show();
 
-                translatorManager.translate(originalTitle, targetLang, new TranslatorManager.TranslateCallback() {
-                    @Override
-                    public void onSuccess(String translatedTitle) {
-                        tvTitle.setText(translatedTitle);
-                        translatorManager.translate(originalDesc, targetLang, new TranslatorManager.TranslateCallback() {
-                            @Override
-                            public void onSuccess(String translatedDesc) {
-                                tvDescription.setText(translatedDesc);
-                                fabTranslate.setText("Original");
-                                isTranslated = true;
-                                fabTranslate.setEnabled(true);
-                            }
-
-                            @Override
-                            public void onError(String error) {
-                                Toast.makeText(JobDetailActivity.this, "Translation failed", Toast.LENGTH_SHORT).show();
-                                fabTranslate.setText("🌐 Translate");
-                                fabTranslate.setEnabled(true);
-                            }
-                        });
+                translatorManager.downloadModel(targetLang, (success, error) -> runOnUiThread(() -> {
+                    if (success) {
+                        performTranslation(targetLang);
+                    } else {
+                        fabTranslate.setText("🌐 Translate");
+                        fabTranslate.setEnabled(true);
+                        String msg = error != null ? error : "Download failed. Check your connection.";
+                        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                     }
+                }));
+            }
+        });
+    }
 
+    private void performTranslation(String targetLang) {
+        fabTranslate.setText("⏳ Translating…");
+        fabTranslate.setEnabled(false);
+
+        translatorManager.translate(originalTitle, targetLang, new TranslatorManager.TranslateCallback() {
+            @Override
+            public void onSuccess(String translatedTitle) {
+                tvTitle.setText(translatedTitle);
+                translatorManager.translate(originalDesc, targetLang, new TranslatorManager.TranslateCallback() {
+                    @Override
+                    public void onSuccess(String translatedDesc) {
+                        tvDescription.setText(translatedDesc);
+                        fabTranslate.setText("🔤 Original");
+                        isTranslated = true;
+                        fabTranslate.setEnabled(true);
+                    }
                     @Override
                     public void onError(String error) {
                         Toast.makeText(JobDetailActivity.this, "Translation failed", Toast.LENGTH_SHORT).show();
@@ -151,6 +163,12 @@ public class JobDetailActivity extends AppCompatActivity {
                         fabTranslate.setEnabled(true);
                     }
                 });
+            }
+            @Override
+            public void onError(String error) {
+                Toast.makeText(JobDetailActivity.this, "Translation failed", Toast.LENGTH_SHORT).show();
+                fabTranslate.setText("🌐 Translate");
+                fabTranslate.setEnabled(true);
             }
         });
     }
@@ -348,26 +366,32 @@ public class JobDetailActivity extends AppCompatActivity {
     }
 
     private void acceptBid(Bid bid) {
-        btnSubmitBid.setEnabled(false); // Prevent double clicks
-        
+        btnSubmitBid.setEnabled(false);
+
         repo.acceptBidAndCreateBooking(jobId, bid, new FirebaseRepository.Callback<String>() {
             @Override
             public void onSuccess(String newBookingId) {
-                Toast.makeText(JobDetailActivity.this, 
-                    "Accepted! Redirecting to payment...", 
-                    Toast.LENGTH_SHORT).show();
-                
                 jobStatus = "awarded";
                 tvStatus.setText("AWARDED");
-                loadBids(); // Refresh UI to hide accept buttons
+                loadBids();
+                btnSubmitBid.setEnabled(true);
 
-                // Launch Payment Activity
-                Intent intent = new Intent(JobDetailActivity.this, PaymentActivity.class);
-                intent.putExtra("booking_id", newBookingId);
-                intent.putExtra("provider_id", bid.getProviderId());
+                // Booking created. Now launch 10% booking-fee payment.
+                double bookingFee = Math.ceil(bid.getBidAmount() * 0.10); // 10%, rounded up
+                Toast.makeText(JobDetailActivity.this,
+                    "Bid accepted! Pay the ₹" + (int) bookingFee + " booking fee to confirm.",
+                    Toast.LENGTH_LONG).show();
+
+                android.content.Intent intent = new android.content.Intent(
+                        JobDetailActivity.this, PaymentActivity.class);
+                intent.putExtra("booking_id",    newBookingId);
+                intent.putExtra("skill_id",      jobId != null ? jobId : "");
+                intent.putExtra("provider_id",   bid.getProviderId());
                 intent.putExtra("provider_name", bid.getProviderName());
-                intent.putExtra("job_title", tvTitle.getText().toString());
-                intent.putExtra("amount", bid.getBidAmount());
+                intent.putExtra("job_title",     tvTitle.getText().toString());
+                intent.putExtra("amount",        bookingFee);
+                intent.putExtra("full_amount",   bid.getBidAmount());      // total job price
+                intent.putExtra("payment_type",  "booking_fee");           // 10% deposit
                 startActivity(intent);
             }
 
@@ -378,6 +402,7 @@ public class JobDetailActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void chatWithBidder(Bid bid) {
         String partnerId;

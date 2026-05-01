@@ -7,7 +7,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.skillconnect.adapters.SkillListAdapter;
 import com.skillconnect.data.FirebaseRepository;
 import com.skillconnect.models.Skill;
@@ -43,6 +45,23 @@ public class ProviderProfileActivity extends AppCompatActivity {
         if (tvName      != null) tvName.setText(providerName);
         if (tvSpecialty != null) tvSpecialty.setText(specialty != null ? specialty : "Professional");
         if (tvRating    != null) tvRating.setText(String.format("%.1f ★", rating));
+
+        // Load provider profile photo
+        ShapeableImageView ivAvatar = findViewById(R.id.ivProviderAvatar);
+        if (ivAvatar != null && providerId != null && !providerId.isEmpty()) {
+            repo.getUserById(providerId, new FirebaseRepository.Callback<com.skillconnect.models.User>() {
+                @Override public void onSuccess(com.skillconnect.models.User user) {
+                    String url = user.getProfileImageUrl();
+                    if (url != null && !url.isEmpty()) {
+                        Glide.with(ProviderProfileActivity.this)
+                                .load(url)
+                                .placeholder(R.drawable.ic_profile_placeholder)
+                                .circleCrop()
+                                .into(ivAvatar);
+                    }
+                }
+            });
+        }
 
         RecyclerView rvSkills = findViewById(R.id.rvProviderSkills);
         if (rvSkills != null) {

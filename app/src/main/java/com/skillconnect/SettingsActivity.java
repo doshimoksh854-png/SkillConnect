@@ -95,29 +95,59 @@ public class SettingsActivity extends AppCompatActivity {
             else if (checkedId == R.id.btnLangGu) newLang = "gu";
             else newLang = "en";
 
+            // Don't do anything if selecting the same language
+            if (newLang.equals(langPref.getLanguage())) {
+                return;
+            }
+
             langPref.setLanguage(newLang);
 
             if ("en".equals(newLang)) {
                 showLangStatus("Language set to English ✅", false);
             } else {
-                // Download model if not ready
-                if (!translatorManager.isModelReady(newLang)) {
-                    showLangStatus("Downloading " + langPref.getLanguageLabel() + " model...", true);
-                    translatorManager.downloadModel(newLang, (success, error) -> {
-                        runOnUiThread(() -> {
-                            if (success) {
-                                showLangStatus(langPref.getLanguageLabel() + " ready! ✅", false);
-                                Toast.makeText(this, "Translation model downloaded!", Toast.LENGTH_SHORT).show();
-                            } else {
-                                showLangStatus("Download failed. Try again on WiFi.", false);
-                                Toast.makeText(this, "Download failed: " + error, Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    });
-                } else {
+                // Check if model is ready
+                if (translatorManager.isModelReady(newLang)) {
                     showLangStatus(langPref.getLanguageLabel() + " ready ✅", false);
+                } else if (translatorManager.isDownloadInProgress(newLang)) {
+                    // Already downloading, show status
+                    showLangStatus("Downloading " + langPref.getLanguageLabel() + " model...", true);
+                } else {
+                    // Start download
+                    startModelDownload(newLang);
                 }
             }
+        });
+    }
+
+    private void startModelDownload(String targetLang) {
+        showLangStatus("Downloading " + langPref.getLanguageLabel() + " model...", true);
+
+        // Set a timeout for the download (30 seconds)
+        android.os.Handler timeoutHandler = new android.os.Handler();
+        Runnable timeoutRunnable = () -> {
+            if (translatorManager.isDownloadInProgress(targetLang)) {
+                runOnUiThread(() -> {
+                    showLangStatus("Download timed out. Check connection and try again.", false);
+                    Toast.makeText(this, "Download timed out. Please try again.", Toast.LENGTH_LONG).show();
+                });
+            }
+        };
+        timeoutHandler.postDelayed(timeoutRunnable, 30000); // 30 second timeout
+
+        translatorManager.downloadModel(targetLang, (success, error) -> {
+            // Cancel timeout
+            timeoutHandler.removeCallbacks(timeoutRunnable);
+
+            runOnUiThread(() -> {
+                if (success) {
+                    showLangStatus(langPref.getLanguageLabel() + " ready! ✅", false);
+                    Toast.makeText(this, "Translation model downloaded successfully!", Toast.LENGTH_SHORT).show();
+                } else {
+                    String errorMsg = error != null ? error : "Unknown error";
+                    showLangStatus("Download failed. Try again on WiFi.", false);
+                    Toast.makeText(this, "Download failed: " + errorMsg, Toast.LENGTH_LONG).show();
+                }
+            });
         });
     }
 

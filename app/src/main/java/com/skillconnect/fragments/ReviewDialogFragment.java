@@ -26,6 +26,10 @@ public class ReviewDialogFragment extends BottomSheetDialogFragment {
     private static final String ARG_BOOKING_ID  = "booking_id";
     private static final String ARG_SKILL_ID    = "skill_id";
     private static final String ARG_SKILL_TITLE = "skill_title";
+    private static final String ARG_PROVIDER_ID = "provider_id";
+    private static final String ARG_PROVIDER_NAME = "provider_name";
+    private static final String ARG_AMOUNT      = "amount";
+    private static final String ARG_REQUIRE_PAY = "require_pay";
 
     private OnReviewSubmittedListener listener;
 
@@ -33,13 +37,18 @@ public class ReviewDialogFragment extends BottomSheetDialogFragment {
         void onReviewSubmitted();
     }
 
-    /** Create with String document IDs (Firestore) */
-    public static ReviewDialogFragment newInstance(String bookingId, String skillId, String skillTitle) {
+    public static ReviewDialogFragment newInstance(String bookingId, String skillId, String skillTitle,
+                                                   String providerId, String providerName, double amount,
+                                                   boolean requirePayment) {
         ReviewDialogFragment fragment = new ReviewDialogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_BOOKING_ID,  bookingId);
         args.putString(ARG_SKILL_ID,    skillId);
         args.putString(ARG_SKILL_TITLE, skillTitle);
+        args.putString(ARG_PROVIDER_ID, providerId);
+        args.putString(ARG_PROVIDER_NAME, providerName);
+        args.putDouble(ARG_AMOUNT,      amount);
+        args.putBoolean(ARG_REQUIRE_PAY, requirePayment);
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,29 +78,74 @@ public class ReviewDialogFragment extends BottomSheetDialogFragment {
 
         if (tvSkillName != null) tvSkillName.setText(skillTitle);
 
+        String providerId = getArguments().getString(ARG_PROVIDER_ID);
+        String providerName = getArguments().getString(ARG_PROVIDER_NAME);
+        double amount = getArguments().getDouble(ARG_AMOUNT);
+        boolean requirePay = getArguments().getBoolean(ARG_REQUIRE_PAY);
+
+        if (requirePay) {
+            btnSubmit.setText("Proceed to Payment");
+        }
+
         btnSubmit.setOnClickListener(v -> {
             float rating  = ratingBar.getRating();
             String comment= etComment.getText() != null ? etComment.getText().toString().trim() : "";
 
             if (rating == 0) {
-                Toast.makeText(getContext(), "Please select a rating", Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "Please select a rating", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            SessionManager session = new SessionManager(requireContext());
-            Review review = new Review();
-            review.setBookingId(bookingId);
-            review.setSkillId(skillId);
-            review.setUserId(session.getUserId());
-            review.setUserName(session.getUserName());
-            review.setRating(rating);
-            review.setComment(comment);
-            review.setCreatedAt(System.currentTimeMillis());
+            SessionManager session = new SessionManager(v.getContext());
+            String customerId = session.getUserId();
 
-            btnSubmit.setEnabled(false);
-            FirebaseRepository.getInstance().addReview(review, docId -> {
-                if (!isAdded()) return;
-                Toast.makeText(getContext(), R.string.review_submitted, Toast.LENGTH_SHORT).show();
+            if (requirePay) {
+                btnSubmit.setEnabled(false);
+                btnSubmit.setText("Opening Payment...");
+                try {
+                    // Pre-payment flow: Launch PaymentActivity with review data + final_payment type
+                    android.content.Intent intent = new android.content.Intent(v.getContext(), com.skillconnect.PaymentActivity.class);
+                    intent.putExtra("booking_id",    bookingId);
+                    intent.putExtra("skill_id",      skillId);
+                    intent.putExtra("provider_id",   providerId);
+                    intent.putExtra("provider_name", providerName != null ? providerName : "Provider");
+                    intent.putExtra("job_title",     skillTitle);
+                    intent.putExtra("amount",        amount);         // 90% remaining
+                    intent.putExtra("full_amount",   amount / 0.90);  // back-calculate full price
+                    intent.putExtra("payment_type",  "final_payment");
+                    intent.putExtra("review_rating", rating);
+                    intent.putExtra("review_comment",comment);
+                    v.getContext().startActivity(intent);
+                    dismiss();
+                } catch (Exception e) {
+                    btnSubmit.setEnabled(true);
+                    btnSubmit.setText("Proceed to Payment");
+                    Toast.makeText(v.getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            } else {
+                // Post-payment / Legacy flow: directly submit review
+                submitReview(bookingId, skillId, customerId, session.getUserName(), rating, comment, btnSubmit, v.getContext());
+            }
+        });
+    }
+
+    private void submitReview(String bookingId, String skillId, String userId, String userName,
+                            float rating, String comment, MaterialButton btnSubmit, android.content.Context ctx) {
+        Review review = new Review();
+        review.setBookingId(bookingId);
+        review.setSkillId(skillId);
+        review.setUserId(userId);
+        review.setUserName(userName);
+        review.setRating(rating);
+        review.setComment(comment);
+        review.setCreatedAt(System.currentTimeMillis());
+
+        btnSubmit.setEnabled(false);
+        FirebaseRepository.getInstance().addReview(review, docId -> {
+            if (!isAdded()) return;
+            // Update booking status to completed after review
+            FirebaseRepository.getInstance().updateBookingStatus(bookingId, "completed", statusUpdated -> {
+                Toast.makeText(ctx, "Review submitted and escrow funds released! ✅", Toast.LENGTH_LONG).show();
                 if (listener != null) listener.onReviewSubmitted();
                 dismiss();
             });

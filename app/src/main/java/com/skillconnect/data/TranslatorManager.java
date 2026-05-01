@@ -23,6 +23,7 @@ public class TranslatorManager {
 
     private final Map<String, Translator> translators = new HashMap<>();
     private final Map<String, Boolean> modelReady = new HashMap<>();
+    private final Map<String, Boolean> downloadInProgress = new HashMap<>();
 
     public interface TranslateCallback {
         void onSuccess(String translatedText);
@@ -62,6 +63,21 @@ public class TranslatorManager {
             return;
         }
 
+        // Check if already downloading or ready
+        if (modelReady.containsKey(targetLang) && modelReady.get(targetLang)) {
+            if (callback != null) callback.onComplete(true, null);
+            return;
+        }
+
+        // Check if download already in progress
+        if (downloadInProgress.containsKey(targetLang) && downloadInProgress.get(targetLang)) {
+            // Download already in progress, just wait
+            if (callback != null) callback.onComplete(false, "Download already in progress");
+            return;
+        }
+
+        downloadInProgress.put(targetLang, true);
+
         String mlLang = mlLangCode(targetLang);
         TranslatorOptions options = new TranslatorOptions.Builder()
                 .setSourceLanguage(TranslateLanguage.ENGLISH)
@@ -71,21 +87,44 @@ public class TranslatorManager {
         Translator translator = Translation.getClient(options);
         translators.put(targetLang, translator);
 
+        // Require WiFi for large downloads
         DownloadConditions conditions = new DownloadConditions.Builder()
-                .requireWifi()
+                .requireWifi()  // Only download on WiFi to avoid mobile data charges
                 .build();
 
+        Log.i(TAG, "Starting model download for: " + targetLang);
         translator.downloadModelIfNeeded(conditions)
                 .addOnSuccessListener(v -> {
-                    Log.i(TAG, "Model downloaded for: " + targetLang);
+                    Log.i(TAG, "Model downloaded successfully for: " + targetLang);
                     modelReady.put(targetLang, true);
+                    downloadInProgress.put(targetLang, false);
                     if (callback != null) callback.onComplete(true, null);
                 })
                 .addOnFailureListener(e -> {
-                    Log.e(TAG, "Model download failed: " + e.getMessage());
+                    Log.e(TAG, "Model download failed for " + targetLang + ": " + e.getMessage());
                     modelReady.put(targetLang, false);
-                    if (callback != null) callback.onComplete(false, e.getMessage());
+                    downloadInProgress.put(targetLang, false);
+                    String errorMsg = getReadableErrorMessage(e);
+                    if (callback != null) callback.onComplete(false, errorMsg);
                 });
+    }
+
+    /**
+     * Convert Firebase ML Kit errors to user-friendly messages
+     */
+    private String getReadableErrorMessage(Exception e) {
+        String message = e.getMessage();
+        if (message == null) return "Unknown download error";
+
+        if (message.contains("NETWORK") || message.contains("network")) {
+            return "Network connection error. Please check your internet connection.";
+        } else if (message.contains("STORAGE") || message.contains("storage")) {
+            return "Insufficient storage space. Please free up space and try again.";
+        } else if (message.contains("MODEL") || message.contains("model")) {
+            return "Model download error. Please try again later.";
+        } else {
+            return "Download failed: " + message;
+        }
     }
 
     /**
@@ -95,6 +134,14 @@ public class TranslatorManager {
         if ("en".equals(targetLang)) return true;
         Boolean ready = modelReady.get(targetLang);
         return ready != null && ready;
+    }
+
+    /**
+     * Check if a model download is currently in progress.
+     */
+    public boolean isDownloadInProgress(String targetLang) {
+        Boolean inProgress = downloadInProgress.get(targetLang);
+        return inProgress != null && inProgress;
     }
 
     /**
@@ -147,5 +194,6 @@ public class TranslatorManager {
         for (Translator t : translators.values()) t.close();
         translators.clear();
         modelReady.clear();
+        downloadInProgress.clear();
     }
 }

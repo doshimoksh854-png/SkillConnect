@@ -23,6 +23,7 @@ public class SessionManager {
     private static final String KEY_USER_ROLE    = "user_role";
     private static final String KEY_USER_PHONE   = "user_phone";
     private static final String KEY_DARK_MODE    = "dark_mode";
+    private static final String KEY_PROFILE_IMAGE_URL = "profile_image_url";
 
     private final SharedPreferences prefs;
     private final SharedPreferences.Editor editor;
@@ -97,6 +98,12 @@ public class SessionManager {
     public String getUserEmail() { return prefs.getString(KEY_USER_EMAIL, ""); }
     public String getUserRole()  { return prefs.getString(KEY_USER_ROLE, "customer"); }
     public String getUserPhone() { return prefs.getString(KEY_USER_PHONE, ""); }
+    public String getProfileImageUrl() { return prefs.getString(KEY_PROFILE_IMAGE_URL, ""); }
+
+    public void updateProfileImageUrl(String url) {
+        editor.putString(KEY_PROFILE_IMAGE_URL, url != null ? url : "");
+        editor.apply();
+    }
 
     public void updateRole(String role) {
         editor.putString(KEY_USER_ROLE, role);

@@ -24,7 +24,7 @@ public class AddSkillActivity extends AppCompatActivity {
 
     private static final String[] CATEGORIES = {
             "Software Development", "Creative & Design", "Digital Marketing",
-            "Education", "Tech Support", "Business & Remote IT"
+            "Education", "Tech Support", "Business & Remote IT", "Other"
     };
 
     @Override

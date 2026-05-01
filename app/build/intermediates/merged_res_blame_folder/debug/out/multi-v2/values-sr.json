@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.skillconnect.app-mergeDebugResources-43:/values-sr/values-sr.xml",
+            "outputFile": "com.skillconnect.app-mergeDebugResources-49:/values-sr/values-sr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-4\\04f9357f67c5eb1e0703aa1eed2be444\\transformed\\jetified-play-services-basement-18.3.0\\res\\values-sr\\values.xml",

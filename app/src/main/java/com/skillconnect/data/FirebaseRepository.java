@@ -1433,4 +1433,77 @@ public class FirebaseRepository {
           })
           .addOnFailureListener(e -> cb.onSuccess(new java.util.LinkedHashMap<>()));
     }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // NEW: ESCROW HOLD, BLACKLIST, OVERDUE DETECTION
+    // ─────────────────────────────────────────────────────────────────────
+
+    /**
+     * Credit provider wallet with the 10% booking fee immediately when a bid is accepted.
+     * Uses existing getOrCreateWallet + updateWalletBalance already defined above.
+     */
+    public void releaseEscrowFunds(String bookingId, String customerId, String providerId,
+                                   double amount, Callback<Boolean> cb) {
+        // Credit provider with remaining 90% and mark booking completed
+        getOrCreateWallet(providerId, new Callback<com.skillconnect.models.Wallet>() {
+            @Override
+            public void onSuccess(com.skillconnect.models.Wallet w) {
+                updateWalletBalance(providerId, w.getBalance() + amount, done -> {
+                    updateBookingStatus(bookingId, "completed", null);
+                    if (cb != null) cb.onSuccess(true);
+                });
+            }
+            @Override
+            public void onError(String err) { if (cb != null) cb.onSuccess(false); }
+        });
+    }
+
+    public void holdEscrowForProvider(String providerId, double amount, Callback<Boolean> cb) {
+        getOrCreateWallet(providerId, new Callback<com.skillconnect.models.Wallet>() {
+            @Override
+            public void onSuccess(com.skillconnect.models.Wallet w) {
+                updateWalletBalance(providerId, w.getBalance() + amount, cb);
+            }
+            @Override
+            public void onError(String err) {
+                if (cb != null) cb.onSuccess(false);
+            }
+        });
+    }
+
+    /** Flag a user as blacklisted for non-payment. */
+    public void blacklistUser(String userId, String reason, Callback<Boolean> cb) {
+        db.collection(COL_USERS).document(userId)
+          .update("blacklisted", true, "blacklistReason", reason)
+          .addOnSuccessListener(v -> { if (cb != null) cb.onSuccess(true); })
+          .addOnFailureListener(e -> { if (cb != null) cb.onSuccess(false); });
+    }
+
+    /** Fetch bookings in 'ready_for_review' status older than cutoffMs epoch. */
+    public void getOverdueBookings(long cutoffMs, Callback<List<Booking>> cb) {
+        db.collection(COL_BOOKINGS)
+          .whereEqualTo("status", "ready_for_review")
+          .whereLessThan("statusUpdatedAt", cutoffMs)
+          .get()
+          .addOnSuccessListener(snap -> {
+              List<Booking> list = new ArrayList<>();
+              for (DocumentSnapshot d : snap.getDocuments()) {
+                  Booking b = docToBooking(d);
+                  if (b != null) list.add(b);
+              }
+              cb.onSuccess(list);
+          })
+          .addOnFailureListener(e -> cb.onSuccess(new ArrayList<>()));
+    }
+
+    /** Update booking status AND stamp statusUpdatedAt (used for 24-hr overdue detection). */
+    public void updateBookingStatusWithTimestamp(String bookingId, String status, Callback<Boolean> cb) {
+        Map<String, Object> m = new HashMap<>();
+        m.put("status", status);
+        m.put("statusUpdatedAt", System.currentTimeMillis());
+        db.collection(COL_BOOKINGS).document(bookingId).update(m)
+          .addOnSuccessListener(v -> { if (cb != null) cb.onSuccess(true); })
+          .addOnFailureListener(e -> { if (cb != null) cb.onSuccess(false); });
+    }
 }
+

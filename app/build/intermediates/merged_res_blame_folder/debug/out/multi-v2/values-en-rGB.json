@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.skillconnect.app-mergeDebugResources-43:/values-en-rGB/values-en-rGB.xml",
+            "outputFile": "com.skillconnect.app-mergeDebugResources-49:/values-en-rGB/values-en-rGB.xml",
             "map": [
                 {
                     "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-4\\1f544452983e959033e537f9fd96058a\\transformed\\jetified-play-services-base-18.1.0\\res\\values-en-rGB\\values.xml",

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.skillconnect.app-mergeDebugResources-43:/values-zh-rCN/values-zh-rCN.xml",
+            "outputFile": "com.skillconnect.app-mergeDebugResources-49:/values-zh-rCN/values-zh-rCN.xml",
             "map": [
                 {
                     "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-4\\5cf3af4c71cdc632812cb4d080ae2b36\\transformed\\browser-1.4.0\\res\\values-zh-rCN\\values-zh-rCN.xml",

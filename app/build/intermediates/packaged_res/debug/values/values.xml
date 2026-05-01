@@ -164,7 +164,6 @@
     <string name="cd_menu">Menu</string>
     <string name="cd_profile_image">Profile Image</string>
     <string name="cd_search">Search</string>
-    <string name="complete">Complete</string>
     <string name="completed_jobs">Completed Jobs</string>
     <string name="contact_provider">Contact Provider</string>
     <string name="dark_mode">Dark Mode</string>
@@ -195,6 +194,7 @@
     <string name="login">Login</string>
     <string name="logout">Logout</string>
     <string name="logout_confirmation">Are you sure you want to logout?</string>
+    <string name="mark_done">Mark as Done</string>
     <string name="my_bookings">My Bookings</string>
     <string name="my_bookings_title">My Bookings</string>
     <string name="my_skills">My Skills</string>
@@ -218,6 +218,7 @@
     <string name="reject">Reject</string>
     <string name="review_hint">Write your review…</string>
     <string name="review_submitted">Review submitted!</string>
+    <string name="review_work">Review Work</string>
     <string name="reviews">Reviews</string>
     <string name="role_customer">I want to hire services</string>
     <string name="role_provider">I want to offer services</string>

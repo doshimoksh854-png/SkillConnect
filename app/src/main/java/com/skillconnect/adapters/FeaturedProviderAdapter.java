@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.skillconnect.R;
+import com.skillconnect.data.FirebaseRepository;
 import com.skillconnect.models.Provider;
 import java.util.List;
 import java.util.Locale;
@@ -71,9 +73,27 @@ public class FeaturedProviderAdapter extends RecyclerView.Adapter<FeaturedProvid
         public void bind(Provider provider) {
             tvProviderName.setText(provider.getName());
             tvProviderSpecialty.setText(provider.getSpecialty());
-            tvProviderRating.setText(String.format(Locale.getDefault(), "%.1f", provider.getRating()));
+            tvProviderRating.setText(String.format(Locale.getDefault(), "%.1f ★", provider.getRating()));
 
+            // Default placeholder first, then try loading real photo
             ivProviderImage.setImageResource(R.drawable.ic_profile_placeholder);
+            String pid = provider.getStringId();
+            if (pid != null && !pid.isEmpty()) {
+                FirebaseRepository.getInstance().getUserById(pid,
+                        new FirebaseRepository.Callback<com.skillconnect.models.User>() {
+                            @Override
+                            public void onSuccess(com.skillconnect.models.User user) {
+                                String url = user.getProfileImageUrl();
+                                if (url != null && !url.isEmpty() && ivProviderImage != null) {
+                                    Glide.with(ivProviderImage.getContext())
+                                            .load(url)
+                                            .placeholder(R.drawable.ic_profile_placeholder)
+                                            .circleCrop()
+                                            .into(ivProviderImage);
+                                }
+                            }
+                        });
+            }
         }
     }
 }

@@ -126,7 +126,7 @@ public class NewJobActivity extends AppCompatActivity {
 
         String[] categories = {
                 "Software Development", "Tech Support", "Creative & Design",
-                "Education", "Digital Marketing", "Business & Remote IT"
+                "Education", "Digital Marketing", "Business & Remote IT", "Other"
         };
         actvCategory.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, categories));

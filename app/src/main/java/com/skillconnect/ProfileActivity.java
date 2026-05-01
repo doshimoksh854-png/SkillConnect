@@ -22,6 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private TextView tvUserName, tvUserEmail, tvMyItemsLabel;
     private TextView tvRoleBadge, tvRoleDescription;
+    private com.google.android.material.imageview.ShapeableImageView ivProfileImage;
     private SwitchMaterial switchDarkMode;
     private MaterialButton btnLogout, btnEditProfile;
     private MaterialCardView cardMyItems, cardSettings, cardHelp, cardPaymentHistory, cardGetVerified, cardAdminDashboard;
@@ -42,6 +43,7 @@ public class ProfileActivity extends AppCompatActivity {
         tvMyItemsLabel    = findViewById(R.id.tvMyItemsLabel);
         tvRoleBadge       = findViewById(R.id.tvRoleBadge);
         tvRoleDescription = findViewById(R.id.tvRoleDescription);
+        ivProfileImage    = findViewById(R.id.ivProfileImage);
         switchDarkMode    = findViewById(R.id.switchDarkMode);
         btnLogout         = findViewById(R.id.btnLogout);
         btnEditProfile    = findViewById(R.id.btnEditProfile);
@@ -74,6 +76,24 @@ public class ProfileActivity extends AppCompatActivity {
 
             tvUserName.setText(name.isEmpty()   ? "Guest User"             : name);
             tvUserEmail.setText(email.isEmpty() ? "guest@skillconnect.com" : email);
+
+            FirebaseRepository.getInstance().getUserById(sessionManager.getUserId(), new FirebaseRepository.Callback<com.skillconnect.models.User>() {
+                @Override public void onSuccess(com.skillconnect.models.User user) {
+                    if (isDestroyed()) return;
+                    String url = user.getProfileImageUrl();
+                    if (url != null && !url.isEmpty()) {
+                        // Cache in session for other screens to use
+                        sessionManager.updateProfileImageUrl(url);
+                        if (ivProfileImage != null) {
+                            com.bumptech.glide.Glide.with(ProfileActivity.this)
+                                    .load(url)
+                                    .placeholder(R.drawable.ic_profile_placeholder)
+                                    .into(ivProfileImage);
+                        }
+                    }
+                }
+            });
+
 
             boolean isProvider = "provider".equals(role);
             if (tvRoleBadge != null) {

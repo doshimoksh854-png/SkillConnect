@@ -139,6 +139,8 @@ public class HomeProviderFragment extends Fragment implements BookingAdapter.OnB
     @Override public void onComplete(Booking b)    { updateStatus(b, "completed"); }
     @Override public void onCancel(Booking b)      { /* providers don't cancel */ }
     @Override public void onLeaveReview(Booking b) { /* providers don't review */ }
+    @Override public void onReviewWork(Booking b)  { /* providers don't review work */ }
+    @Override public void onPayNow(Booking b)      { /* providers don't pay */ }
     @Override public void onChat(Booking b) {
         Intent ci = new Intent(getContext(), com.skillconnect.ChatActivity.class);
         ci.putExtra("chat_partner_id", b.getUserId());

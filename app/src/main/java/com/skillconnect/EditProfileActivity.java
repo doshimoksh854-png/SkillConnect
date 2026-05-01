@@ -127,10 +127,12 @@ public class EditProfileActivity extends AppCompatActivity {
         btnSave.setEnabled(false);
         String uid = sessionManager.getUserId();
 
-        // Save profile image URL to Firestore
+        // Save profile image URL to Firestore and session cache
         if (uploadedImageUrl != null && !uploadedImageUrl.isEmpty()) {
             repo.updateUserProfileImage(uid, uploadedImageUrl, null);
+            sessionManager.updateProfileImageUrl(uploadedImageUrl);
         }
+
 
         repo.updateUser(uid, name, email, phone,
                 new FirebaseRepository.Callback<Boolean>() {

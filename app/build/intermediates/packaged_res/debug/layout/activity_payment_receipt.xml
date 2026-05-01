@@ -52,6 +52,7 @@
 
             <!-- Receipt Card -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/receiptCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
@@ -140,12 +141,34 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDownload"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="⬇ Download Receipt"
+                android:layout_marginTop="24dp"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_download"
+                app:iconGravity="textStart" />
+
+            <!-- Progress shown while saving -->
+            <ProgressBar
+                android:id="@+id/downloadProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDone"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Done"
-                android:layout_marginTop="32dp"
+                android:text="Done — Go Home"
+                android:layout_marginTop="12dp"
                 app:cornerRadius="12dp" />
+
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -114,6 +114,7 @@ public class HomeCustomerFragment extends Fragment {
         cats.add(new Category(4, getString(R.string.category_education),    R.drawable.ic_category_education));
         cats.add(new Category(5, getString(R.string.category_marketing),    R.drawable.ic_category_marketing));
         cats.add(new Category(6, getString(R.string.category_business),     R.drawable.ic_category_business));
+        cats.add(new Category(7, "Other", R.drawable.ic_category_software)); // Reusing software icon as a fallback
         CategoryAdapter adapter = new CategoryAdapter(cats, cat -> {
             Intent i = new Intent(getContext(), SkillListActivity.class);
             i.putExtra("category_name", cat.getName());

@@ -32,7 +32,9 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         void onComplete(Booking booking);
         void onCancel(Booking booking);
         void onLeaveReview(Booking booking);
+        void onReviewWork(Booking booking);
         void onChat(Booking booking);
+        void onPayNow(Booking booking);
     }
 
     public BookingAdapter(List<Booking> bookings, String userRole, OnBookingActionListener listener) {
@@ -86,7 +88,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
 
         void bind(Booking booking) {
             tvSkillTitle.setText(booking.getSkillTitle());
-            tvPrice.setText(String.format(Locale.getDefault(), "$%.0f", booking.getPrice()));
+            tvPrice.setText(String.format(Locale.getDefault(), "₹%.0f", booking.getPrice()));
 
             // Format date
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
@@ -111,11 +113,18 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                     statusColor = ContextCompat.getColor(itemView.getContext(), R.color.status_accepted);
                     break;
                 case "completed":
+                case "paid":
                     statusColor = ContextCompat.getColor(itemView.getContext(), R.color.status_completed);
                     break;
                 case "cancelled":
                 case "rejected":
                     statusColor = ContextCompat.getColor(itemView.getContext(), R.color.status_cancelled);
+                    break;
+                case "ready_for_review":
+                    statusColor = ContextCompat.getColor(itemView.getContext(), R.color.status_accepted);
+                    break;
+                case "awarded":   // 10% not yet paid
+                    statusColor = 0xFFFF9800; // orange
                     break;
                 default: // pending
                     statusColor = ContextCompat.getColor(itemView.getContext(), R.color.status_pending);
@@ -153,12 +162,12 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                     btnSecondary.setOnClickListener(v -> listener.onReject(booking));
                 } else if ("accepted".equals(status)) {
                     btnPrimary.setVisibility(View.VISIBLE);
-                    btnPrimary.setText(R.string.complete);
+                    btnPrimary.setText(R.string.mark_done);
                     btnPrimary.setOnClickListener(v -> listener.onComplete(booking));
                 }
             } else {
-                // Customer — also show chat on active bookings
-                if ("pending".equals(status) || "accepted".equals(status)) {
+                // Customer—also show chat on active bookings
+                if ("pending".equals(status) || "accepted".equals(status) || "awarded".equals(status)) {
                     layoutActions.setVisibility(View.VISIBLE);
                     btnChat.setVisibility(View.VISIBLE);
                     btnChat.setOnClickListener(v -> listener.onChat(booking));
@@ -167,6 +176,26 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                     btnSecondary.setVisibility(View.VISIBLE);
                     btnSecondary.setText(R.string.cancel_booking);
                     btnSecondary.setOnClickListener(v -> listener.onCancel(booking));
+                } else if ("awarded".equals(status)) {
+                    // Booking accepted but 10% deposit not yet paid
+                    layoutActions.setVisibility(View.VISIBLE);
+                    btnPrimary.setVisibility(View.VISIBLE);
+                    btnPrimary.setText("Pay Booking Fee (10%)");
+                    btnPrimary.setOnClickListener(v -> listener.onPayNow(booking));
+                } else if ("ready_for_review".equals(status)) {
+                    // Provider marked task done — customer must review + pay remaining 90%
+                    layoutActions.setVisibility(View.VISIBLE);
+                    btnPrimary.setVisibility(View.VISIBLE);
+                    btnPrimary.setText("Review & Pay Remaining (90%)");
+                    btnPrimary.setOnClickListener(v -> listener.onPayNow(booking));
+                    btnChat.setVisibility(View.VISIBLE);
+                    btnChat.setOnClickListener(v -> listener.onChat(booking));
+                } else if ("paid".equals(status)) {
+                    // Payment done — customer can now leave a review
+                    layoutActions.setVisibility(View.VISIBLE);
+                    btnPrimary.setVisibility(View.VISIBLE);
+                    btnPrimary.setText(R.string.leave_review);
+                    btnPrimary.setOnClickListener(v -> listener.onLeaveReview(booking));
                 } else if ("completed".equals(status)) {
                     layoutActions.setVisibility(View.VISIBLE);
                     btnPrimary.setVisibility(View.VISIBLE);

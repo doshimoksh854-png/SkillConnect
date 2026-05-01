@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.skillconnect.app-mergeDebugResources-43:/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "com.skillconnect.app-mergeDebugResources-49:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
                     "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-4\\2d6b262bb1b6ef9d1e14fea6999f7abb\\transformed\\jetified-play-services-auth-17.0.0\\res\\values-watch-v20\\values.xml",

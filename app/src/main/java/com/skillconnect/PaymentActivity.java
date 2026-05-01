@@ -16,6 +16,7 @@ import com.skillconnect.data.FirebaseRepository;
 import com.skillconnect.data.SessionManager;
 import com.skillconnect.models.Notification;
 import com.skillconnect.models.Transaction;
+import com.skillconnect.models.Wallet;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -37,10 +38,14 @@ public class PaymentActivity extends AppCompatActivity {
 
     private FirebaseRepository repo;
     private SessionManager session;
-    private String bookingId, providerId, providerName, jobTitle;
-    private double amount;
+    private String bookingId, providerId, providerName, jobTitle, skillId;
+    private double amount, fullAmount;
     private String selectedMethod = "upi";
     private String generatedTxId;
+    private String paymentType; // "booking_fee" or "final_payment"
+    // Review data (only for final_payment)
+    private float reviewRating;
+    private String reviewComment;
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,14 +102,33 @@ public class PaymentActivity extends AppCompatActivity {
 
     private void unpackIntent() {
         bookingId    = getIntent().getStringExtra("booking_id");
+        skillId      = getIntent().getStringExtra("skill_id");
         providerId   = getIntent().getStringExtra("provider_id");
         providerName = getIntent().getStringExtra("provider_name");
         jobTitle     = getIntent().getStringExtra("job_title");
         amount       = getIntent().getDoubleExtra("amount", 0);
+        fullAmount   = getIntent().getDoubleExtra("full_amount", amount);
+        paymentType  = getIntent().getStringExtra("payment_type");
+        if (paymentType == null) paymentType = "final_payment";
+        reviewRating = getIntent().getFloatExtra("review_rating", 0f);
+        reviewComment= getIntent().getStringExtra("review_comment");
 
         if (tvJobTitle    != null) tvJobTitle.setText(jobTitle != null ? jobTitle : "Service");
         if (tvProviderName!= null) tvProviderName.setText(providerName != null ? providerName : "Provider");
-        if (tvAmount      != null) tvAmount.setText(String.format(Locale.getDefault(), "₹%.0f", amount));
+
+        // Set amount + context label based on payment type
+        if ("booking_fee".equals(paymentType)) {
+            if (tvAmount != null) tvAmount.setText(String.format(Locale.getDefault(),
+                    "₹%.0f  (10%% Booking Deposit)", amount));
+            if (getSupportActionBar() != null) getSupportActionBar().setTitle("Pay Booking Fee");
+        } else {
+            // final_payment
+            double remainingAmt = fullAmount - (fullAmount * 0.10);
+            amount = Math.ceil(remainingAmt); // recalculate to be safe
+            if (tvAmount != null) tvAmount.setText(String.format(Locale.getDefault(),
+                    "₹%.0f  (Remaining 90%%)", amount));
+            if (getSupportActionBar() != null) getSupportActionBar().setTitle("Final Payment");
+        }
     }
 
     // ────────────────────────────────────────────────────────
@@ -142,18 +166,21 @@ public class PaymentActivity extends AppCompatActivity {
                 if (tvResultTitle != null) tvResultTitle.setText("Payment Successful!");
                 if (tvResultMsg   != null) tvResultMsg.setText("₹" + String.format(Locale.getDefault(), "%.0f", amount)
                         + " paid via " + selectedMethod.toUpperCase() + "\nTxn ID: " + generatedTxId);
+                if (btnViewReceipt != null) btnViewReceipt.setVisibility(View.VISIBLE);
                 savePaymentSuccess();
                 break;
             case "pending":
                 if (tvResultIcon  != null) tvResultIcon.setText("🕐");
                 if (tvResultTitle != null) tvResultTitle.setText("Payment Pending");
                 if (tvResultMsg   != null) tvResultMsg.setText("Your Cash on Service payment is pending.\nPay the provider upon service completion.");
+                if (btnViewReceipt != null) btnViewReceipt.setVisibility(View.GONE);
                 savePaymentPending();
                 break;
             case "failed":
                 if (tvResultIcon  != null) tvResultIcon.setText("❌");
                 if (tvResultTitle != null) tvResultTitle.setText("Payment Failed");
                 if (tvResultMsg   != null) tvResultMsg.setText("Transaction could not be completed.\nPlease try again or use a different method.");
+                if (btnViewReceipt != null) btnViewReceipt.setVisibility(View.GONE);
                 btnPay.setEnabled(true);
                 btnPay.setText("Retry Payment");
                 if (layoutPaymentForm != null) {
@@ -173,18 +200,107 @@ public class PaymentActivity extends AppCompatActivity {
     private void savePaymentSuccess() {
         String uid = session.getUserId();
 
+        // If paying from wallet, deduct from customer wallet first
+        if ("wallet".equals(selectedMethod)) {
+            repo.getOrCreateWallet(uid, new FirebaseRepository.Callback<Wallet>() {
+                @Override
+                public void onSuccess(Wallet wallet) {
+                    if (wallet.getBalance() >= amount) {
+                        double newBalance = wallet.getBalance() - amount;
+                        repo.updateWalletBalance(uid, newBalance, success -> {
+                            if (success) {
+                                // Continue with payment processing after wallet deduction
+                                processPaymentAfterWalletDeduction(uid);
+                            } else {
+                                showPaymentError("Failed to deduct from wallet");
+                            }
+                        });
+                    } else {
+                        showPaymentError("Insufficient wallet balance");
+                    }
+                }
+                @Override
+                public void onError(String error) {
+                    showPaymentError("Failed to check wallet balance: " + error);
+                }
+            });
+        } else {
+            // For other payment methods, proceed directly
+            processPaymentAfterWalletDeduction(uid);
+        }
+    }
+
+    private void processPaymentAfterWalletDeduction(String uid) {
         // Transaction record for customer
         Transaction tx = new Transaction(uid, bookingId, "payment", amount, "success",
                 selectedMethod, "Payment for: " + jobTitle);
         repo.createTransaction(tx, null);
 
-        // Transaction record for provider
+        // Transaction record for provider (funds held in escrow)
         Transaction provTx = new Transaction(providerId, bookingId, "received", amount,
-                "held", selectedMethod, "Payment received for: " + jobTitle);
+                "held", selectedMethod, "Payment received for: " + jobTitle + " (Held in escrow)");
         repo.createTransaction(provTx, null);
 
-        // Update booking status
-        if (bookingId != null) repo.updateBookingStatus(bookingId, "paid", null);
+        // ── Success: handle each payment type differently ──
+        if ("booking_fee".equals(paymentType)) {
+            // 10% deposit paid — update booking to 'accepted' (work can start)
+            repo.updateBookingStatusWithTimestamp(bookingId, "accepted", null);
+
+            // Credit provider wallet with 10% booking fee
+            repo.holdEscrowForProvider(providerId, amount, success -> {
+                // wallet credited (or failed silently)
+            });
+
+            // Schedule 24-hour payment-deadline reminder (in case customer forgets remaining payment)
+            schedulePaymentDeadlineCheck(bookingId, uid);
+
+            // Notify provider
+            repo.createNotification(new Notification(providerId, "provider", "booking_confirmed",
+                    "Job Confirmed ✅",
+                    "Customer has paid the ₹" + String.format(Locale.getDefault(), "%.0f", amount) + " booking fee for '" + jobTitle + "'. You can start work!",
+                    bookingId), null);
+
+            // Notify customer
+            repo.createNotification(new Notification(uid, "customer", "booking_fee_paid",
+                    "Booking Confirmed!",
+                    "₹" + String.format(Locale.getDefault(), "%.0f", amount) + " booking fee paid. Provider will start work soon.",
+                    bookingId), null);
+
+        } else {
+            // final_payment (90%) — update booking to 'paid'
+            if (bookingId != null) repo.updateBookingStatus(bookingId, "paid", null);
+
+            // Auto-submit review if review data was passed
+            if (reviewRating > 0 && bookingId != null) {
+                com.skillconnect.models.Review review = new com.skillconnect.models.Review();
+                review.setBookingId(bookingId);
+                review.setSkillId(skillId != null ? skillId : "");
+                review.setUserId(uid);
+                review.setUserName(session.getUserName());
+                review.setRating(reviewRating);
+                review.setComment(reviewComment != null ? reviewComment : "");
+                review.setCreatedAt(System.currentTimeMillis());
+                repo.addReview(review, docId -> {
+                    repo.releaseEscrowFunds(bookingId, uid, providerId, amount, released ->
+                        repo.updateBookingStatus(bookingId, "completed", null));
+                });
+            } else if (bookingId != null) {
+                repo.releaseEscrowFunds(bookingId, uid, providerId, amount, released ->
+                    repo.updateBookingStatus(bookingId, "completed", null));
+            }
+
+            // Notify customer
+            repo.createNotification(new Notification(uid, "customer", "payment_success",
+                    "Payment Complete ✅",
+                    "₹" + String.format(Locale.getDefault(), "%.0f", amount) + " final payment done for '" + jobTitle + "'.",
+                    bookingId), null);
+
+            // Notify provider
+            repo.createNotification(new Notification(providerId, "provider", "payment_received",
+                    "Payment Received 💰",
+                    "₹" + String.format(Locale.getDefault(), "%.0f", amount) + " received for '" + jobTitle + "'. Escrow released!",
+                    bookingId), null);
+        }
 
         // Save payment record to Firestore
         Map<String, Object> payDoc = new HashMap<>();
@@ -192,7 +308,7 @@ public class PaymentActivity extends AppCompatActivity {
         payDoc.put("customerId", uid);
         payDoc.put("providerId", providerId);
         payDoc.put("amount", amount);
-        payDoc.put("status", "held");
+        payDoc.put("status", "held"); // Funds are held in escrow
         payDoc.put("method", selectedMethod);
         payDoc.put("provider", "demo");
         payDoc.put("transactionId", generatedTxId);
@@ -202,15 +318,27 @@ public class PaymentActivity extends AppCompatActivity {
         // Customer notification
         repo.createNotification(new Notification(uid, "customer", "payment_success",
                 "Payment Successful ✅",
-                "₹" + String.format(Locale.getDefault(), "%.0f", amount) + " paid for " + jobTitle,
+                "₹" + String.format(Locale.getDefault(), "%.0f", amount) + " paid for " + jobTitle +
+                ". Funds are held in escrow until job completion.",
                 bookingId), null);
 
         // Provider notification
         repo.createNotification(new Notification(providerId, "provider", "payment_received",
                 "Payment Received 💰",
-                "₹" + String.format(Locale.getDefault(), "%.0f", amount) + " received for " + jobTitle
-                + ". Funds held until job completion.",
+                "₹" + String.format(Locale.getDefault(), "%.0f", amount) + " received for " + jobTitle +
+                ". Funds are held in escrow until customer approves completion.",
                 bookingId), null);
+    }
+
+    private void showPaymentError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        // Reset UI to allow retry
+        btnPay.setEnabled(true);
+        btnPay.setText("Retry Payment");
+        if (layoutPaymentForm != null) {
+            layoutPaymentResult.setVisibility(View.GONE);
+            layoutPaymentForm.setVisibility(View.VISIBLE);
+        }
     }
 
     private void savePaymentPending() {
@@ -232,5 +360,20 @@ public class PaymentActivity extends AppCompatActivity {
         i.putExtra("tx_id",         generatedTxId);
         i.putExtra("booking_id",    bookingId);
         startActivity(i);
+    }
+
+    private void schedulePaymentDeadlineCheck(String bookingId, String customerId) {
+        if (bookingId == null) return;
+        androidx.work.Data inputData = new androidx.work.Data.Builder()
+                .putString(PaymentDeadlineWorker.KEY_BOOKING_ID,  bookingId)
+                .putString(PaymentDeadlineWorker.KEY_CUSTOMER_ID, customerId)
+                .putString(PaymentDeadlineWorker.KEY_JOB_TITLE,   jobTitle != null ? jobTitle : "job")
+                .build();
+        androidx.work.OneTimeWorkRequest req = new androidx.work.OneTimeWorkRequest.Builder(PaymentDeadlineWorker.class)
+                .setInitialDelay(24, java.util.concurrent.TimeUnit.HOURS)
+                .setInputData(inputData)
+                .addTag("payment_deadline_" + bookingId)
+                .build();
+        androidx.work.WorkManager.getInstance(this).enqueue(req);
     }
 }

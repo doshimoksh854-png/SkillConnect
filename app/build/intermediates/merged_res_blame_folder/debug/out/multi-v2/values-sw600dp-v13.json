@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.skillconnect.app-mergeDebugResources-43:/values-sw600dp-v13/values-sw600dp-v13.xml",
+            "outputFile": "com.skillconnect.app-mergeDebugResources-49:/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
                     "source": "C:\\Users\\admin\\.gradle\\caches\\transforms-4\\dcbdf8e0793efcdf07a22089fdc040e0\\transformed\\jetified-checkout-1.6.33\\res\\values-sw600dp-v13\\values-sw600dp-v13.xml",

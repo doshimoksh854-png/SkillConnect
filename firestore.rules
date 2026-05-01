@@ -115,6 +115,41 @@ service cloud.firestore {
       allow update, delete: if false;
     }
 
+    // ─── Wallets ───────────────────────────────────────────────
+    // Users can only read and write their OWN wallet balance
+    match /wallets/{userId} {
+      allow read:  if isOwner(userId);
+      allow write: if isOwner(userId);
+    }
+
+    // ─── Transactions ──────────────────────────────────────────
+    // Users can read and create their own transactions; records are immutable
+    match /transactions/{transactionId} {
+      allow read:   if isAuthenticated()
+                    && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated()
+                    && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // ─── Notifications ─────────────────────────────────────────
+    // Users can read, update (mark read), and delete their own notifications
+    match /notifications/{notifId} {
+      allow read:   if isAuthenticated()
+                    && resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated()
+                    && resource.data.userId == request.auth.uid;
+      allow delete: if isAuthenticated()
+                    && resource.data.userId == request.auth.uid;
+    }
+
+    // ─── User Chat Threads ─────────────────────────────────────
+    // Users can only read/write their own chat thread metadata index
+    match /user_chats/{userId}/{document=**} {
+      allow read, write: if isOwner(userId);
+    }
+
     // ─── Deny everything else ──────────────────────────────────
     match /{document=**} {
       allow read, write: if false;
