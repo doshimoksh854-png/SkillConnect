@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.skillconnect.ProviderProfileActivity;
 import com.skillconnect.R;
 import com.skillconnect.SkillListActivity;
@@ -31,6 +32,7 @@ public class HomeCustomerFragment extends Fragment {
     private FirebaseRepository repo;
     private TextView tvCustomerWalletBalance;
     private SessionManager session;
+    private SwipeRefreshLayout swipeRefresh;
 
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -85,12 +87,22 @@ public class HomeCustomerFragment extends Fragment {
         }
         
         loadWalletBalance();
+
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
+        if (swipeRefresh != null) {
+            swipeRefresh.setColorSchemeResources(R.color.md_theme_light_primary);
+            swipeRefresh.setOnRefreshListener(() -> {
+                loadFeaturedProviders();
+                loadWalletBalance();
+            });
+        }
     }
 
     @Override public void onResume() { 
         super.onResume(); 
         loadFeaturedProviders(); 
         loadWalletBalance();
+        if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
     }
 
     private void loadWalletBalance() {

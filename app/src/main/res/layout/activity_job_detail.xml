@@ -291,6 +291,42 @@
                 android:layout_marginBottom="16dp"
                 android:background="?attr/colorOutlineVariant" />
 
+            <!-- Job Actions (Cancel / Share) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp"
+                android:gravity="end">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCancelJob"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Cancel Job"
+                    android:textSize="13sp"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:layout_marginEnd="8dp"
+                    android:visibility="gone"
+                    app:cornerRadius="10dp"
+                    app:strokeColor="@android:color/holo_red_dark" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnShareJob"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="Share"
+                    android:textSize="13sp"
+                    android:textAllCaps="false"
+                    android:visibility="gone"
+                    app:icon="@drawable/ic_share"
+                    app:iconSize="16dp"
+                    app:cornerRadius="10dp" />
+            </LinearLayout>
+
             <!-- Bids Section -->
             <TextView
                 android:layout_width="match_parent"

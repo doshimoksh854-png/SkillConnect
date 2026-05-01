@@ -367,10 +367,8 @@ public class FirebaseRepository {
     public void updateBookingStatus(String documentId, String status, Callback<Boolean> callback) {
         db.collection(COL_BOOKINGS).document(documentId)
           .update("status", status)
-          .addOnSuccessListener(v -> callback.onSuccess(true))
-          .addOnFailureListener(e -> {
-              if (callback != null) callback.onError(e.getMessage());
-          });
+          .addOnSuccessListener(v -> { if (callback != null) callback.onSuccess(true); })
+          .addOnFailureListener(e -> { if (callback != null) callback.onError(e.getMessage()); });
     }
 
     public void getProviderStats(String providerId, Callback<int[]> callback) {
@@ -573,6 +571,7 @@ public class FirebaseRepository {
         b.setSkillId(getString(doc, "skillId"));
         b.setSkillTitle(getString(doc, "skillTitle"));
         b.setProviderName(getString(doc, "providerName"));
+        b.setUserName(getString(doc, "userName"));
         b.setPrice(getDouble(doc, "price"));
         b.setStatus(getString(doc, "status"));
         b.setBookingDate(getLong(doc, "bookingDate"));
@@ -636,6 +635,24 @@ public class FirebaseRepository {
         db.collection(COL_JOBS).add(doc)
           .addOnSuccessListener(ref -> callback.onSuccess(ref.getId()))
           .addOnFailureListener(e -> callback.onError(e.getMessage()));
+    }
+
+    /** Delete a job post and all its associated bids */
+    public void deleteJobPost(String jobId, Callback<Boolean> callback) {
+        // First delete all bids for this job
+        db.collection(COL_BIDS).whereEqualTo("jobId", jobId).get()
+          .addOnSuccessListener(snap -> {
+              WriteBatch batch = db.batch();
+              for (DocumentSnapshot d : snap.getDocuments()) {
+                  batch.delete(d.getReference());
+              }
+              // Then delete the job itself
+              batch.delete(db.collection(COL_JOBS).document(jobId));
+              batch.commit()
+                .addOnSuccessListener(v -> { if (callback != null) callback.onSuccess(true); })
+                .addOnFailureListener(e -> { if (callback != null) callback.onError(e.getMessage()); });
+          })
+          .addOnFailureListener(e -> { if (callback != null) callback.onError(e.getMessage()); });
     }
 
     // ── Job file/image upload ───────────────────────────────────────────────────
@@ -899,8 +916,8 @@ public class FirebaseRepository {
 
     public void createPaymentRecord(Map<String, Object> doc, Callback<String> callback) {
         db.collection(COL_PAYMENTS).add(doc)
-          .addOnSuccessListener(ref -> callback.onSuccess(ref.getId()))
-          .addOnFailureListener(e -> callback.onError(e.getMessage()));
+          .addOnSuccessListener(ref -> { if (callback != null) callback.onSuccess(ref.getId()); })
+          .addOnFailureListener(e -> { if (callback != null) callback.onError(e.getMessage()); });
     }
 
     public void updateBookingPaymentStatus(String bookingId, String razorpayPaymentId, Callback<Boolean> callback) {

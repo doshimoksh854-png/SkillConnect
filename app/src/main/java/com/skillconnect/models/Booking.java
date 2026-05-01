@@ -14,6 +14,7 @@ public class Booking {
     private String status;      // pending, accepted, completed, cancelled, rejected
     private long bookingDate;
     private String notes;
+    private String userName;    // Customer's display name
 
     public Booking() {}
 
@@ -61,4 +62,7 @@ public class Booking {
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+
+    public String getUserName() { return userName; }
+    public void setUserName(String userName) { this.userName = userName; }
 }

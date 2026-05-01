@@ -160,7 +160,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (cardAdminDashboard != null) {
             String email = sessionManager.getUserEmail();
-            if (email != null && (email.toLowerCase().contains("admin") || email.equalsIgnoreCase("skillconnect@exampl.com"))) {
+            if (email != null && (email.toLowerCase().contains("admin") || email.equalsIgnoreCase("skillconnect@example.com"))) {
                 cardAdminDashboard.setVisibility(android.view.View.VISIBLE);
                 cardAdminDashboard.setOnClickListener(v -> 
                     startActivity(new Intent(this, AdminDashboardActivity.class)));

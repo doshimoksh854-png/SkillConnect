@@ -27,6 +27,7 @@ public class BookingsListFragment extends Fragment implements BookingAdapter.OnB
     private BookingAdapter adapter;
     private FirebaseRepository repo;
     private SessionManager sessionManager;
+    private androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipeRefresh;
 
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -42,10 +43,20 @@ public class BookingsListFragment extends Fragment implements BookingAdapter.OnB
         rvBookings  = view.findViewById(R.id.rvBookings);
         layoutEmpty = view.findViewById(R.id.layoutEmpty);
         rvBookings.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
+        if (swipeRefresh != null) {
+            swipeRefresh.setOnRefreshListener(() -> loadBookings());
+        }
+
         loadBookings();
     }
 
-    @Override public void onResume() { super.onResume(); loadBookings(); }
+    @Override public void onResume() { 
+        super.onResume(); 
+        loadBookings();
+        if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
+    }
 
     private void loadBookings() {
         if (!isAdded()) return;
@@ -69,8 +80,11 @@ public class BookingsListFragment extends Fragment implements BookingAdapter.OnB
                 } else {
                     adapter.updateBookings(bookings);
                 }
+                if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
             }
-            @Override public void onError(String e) {}
+            @Override public void onError(String e) {
+                if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
+            }
         };
 
         if ("provider".equals(role)) repo.getProviderBookings(uid, cb);

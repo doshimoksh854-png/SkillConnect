@@ -314,20 +314,6 @@ public class PaymentActivity extends AppCompatActivity {
         payDoc.put("transactionId", generatedTxId);
         payDoc.put("createdAt", System.currentTimeMillis());
         repo.createPaymentRecord(payDoc, null);
-
-        // Customer notification
-        repo.createNotification(new Notification(uid, "customer", "payment_success",
-                "Payment Successful ✅",
-                "₹" + String.format(Locale.getDefault(), "%.0f", amount) + " paid for " + jobTitle +
-                ". Funds are held in escrow until job completion.",
-                bookingId), null);
-
-        // Provider notification
-        repo.createNotification(new Notification(providerId, "provider", "payment_received",
-                "Payment Received 💰",
-                "₹" + String.format(Locale.getDefault(), "%.0f", amount) + " received for " + jobTitle +
-                ". Funds are held in escrow until customer approves completion.",
-                bookingId), null);
     }
 
     private void showPaymentError(String message) {

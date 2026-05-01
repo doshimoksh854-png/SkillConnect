@@ -32,6 +32,7 @@ public class HomeProviderFragment extends Fragment implements BookingAdapter.OnB
     private TextView tvEarnings, tvEmptyBookings, tvProviderWalletBalance;
     private FirebaseRepository repo;
     private SessionManager sessionManager;
+    private androidx.swiperefreshlayout.widget.SwipeRefreshLayout swipeRefresh;
 
     @Nullable @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -70,9 +71,18 @@ public class HomeProviderFragment extends Fragment implements BookingAdapter.OnB
         }
 
         loadDashboardData();
+
+        swipeRefresh = view.findViewById(R.id.swipeRefresh);
+        if (swipeRefresh != null) {
+            swipeRefresh.setOnRefreshListener(() -> loadDashboardData());
+        }
     }
 
-    @Override public void onResume() { super.onResume(); loadDashboardData(); }
+    @Override public void onResume() { 
+        super.onResume(); 
+        loadDashboardData();
+        if (swipeRefresh != null) swipeRefresh.setRefreshing(false);
+    }
 
     private void loadDashboardData() {
         if (!isAdded()) return;
@@ -136,7 +146,27 @@ public class HomeProviderFragment extends Fragment implements BookingAdapter.OnB
 
     @Override public void onAccept(Booking b)      { updateStatus(b, "accepted"); }
     @Override public void onReject(Booking b)      { updateStatus(b, "rejected"); }
-    @Override public void onComplete(Booking b)    { updateStatus(b, "completed"); }
+    @Override public void onComplete(Booking b)    {
+        repo.updateBookingStatus(b.getDocumentId(), "ready_for_review", new FirebaseRepository.Callback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+                if (!isAdded()) return;
+                android.widget.Toast.makeText(getContext(), "Marked as done! Customer will review your work.", android.widget.Toast.LENGTH_LONG).show();
+                // Notify customer
+                repo.createNotification(new com.skillconnect.models.Notification(
+                    b.getUserId(), "customer", "work_ready",
+                    "Work Ready for Review 🎯",
+                    "Provider has completed the work for '" + b.getSkillTitle() + "'. Please review and approve payment.",
+                    b.getDocumentId()), null);
+                loadDashboardData();
+            }
+            @Override
+            public void onError(String error) {
+                if (!isAdded()) return;
+                android.widget.Toast.makeText(getContext(), "Failed: " + error, android.widget.Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     @Override public void onCancel(Booking b)      { /* providers don't cancel */ }
     @Override public void onLeaveReview(Booking b) { /* providers don't review */ }
     @Override public void onReviewWork(Booking b)  { /* providers don't review work */ }
@@ -144,7 +174,8 @@ public class HomeProviderFragment extends Fragment implements BookingAdapter.OnB
     @Override public void onChat(Booking b) {
         Intent ci = new Intent(getContext(), com.skillconnect.ChatActivity.class);
         ci.putExtra("chat_partner_id", b.getUserId());
-        ci.putExtra("chat_partner_name", "Customer"); // Booking model doesn't store user name
+        String customerName = (b.getUserName() != null && !b.getUserName().isEmpty()) ? b.getUserName() : "Customer";
+        ci.putExtra("chat_partner_name", customerName);
         startActivity(ci);
     }
 }

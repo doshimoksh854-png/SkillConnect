@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     android:background="?android:colorBackground">
 
+    <!-- SwipeRefreshLayout wraps the scroll content -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <!-- Single child NestedScrollView (valid: only 1 direct child) -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -247,6 +253,8 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- FAB overlays scroll content — correct placement as sibling of NestedScrollView -->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

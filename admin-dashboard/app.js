@@ -266,26 +266,27 @@ async function loadBookings() {
 
 async function loadPayments() {
     try {
-        const snap = await db.collection('payments').orderBy('timestamp', 'desc').get();
+        const snap = await db.collection('payments').get();
+        const sortedDocs = snap.docs.sort((a, b) => (b.data().createdAt || 0) - (a.data().createdAt || 0));
         const tbody = document.getElementById('paymentsBody');
         tbody.innerHTML = '';
 
         let successCount = 0, failCount = 0, totalAmt = 0;
 
-        snap.docs.forEach(d => {
+        sortedDocs.forEach(d => {
             const p = d.data();
             const statusClass = p.status === 'success' ? 'badge-success' : 'badge-danger';
             if (p.status === 'success') { successCount++; totalAmt += (p.amount || 0); }
             else { failCount++; }
 
             tbody.innerHTML += `<tr>
-                <td>${esc(p.jobTitle || 'Service')}</td>
+                <td>${esc(p.jobTitle || p.skillTitle || 'Service')}</td>
                 <td>${esc(p.customerName || '-')}</td>
                 <td>${esc(p.providerName || '-')}</td>
                 <td>₹${(p.amount || 0).toLocaleString()}</td>
                 <td><span class="badge ${statusClass}">${esc(p.status || 'unknown')}</span></td>
-                <td style="font-size:12px;color:var(--text-muted)">${esc(p.razorpayPaymentId || '-')}</td>
-                <td>${formatDate(p.timestamp)}</td>
+                <td style="font-size:12px;color:var(--text-muted)">${esc(p.razorpayPaymentId || p.transactionId || '-')}</td>
+                <td>${formatDate(p.createdAt || p.timestamp)}</td>
             </tr>`;
         });
 
@@ -362,11 +363,11 @@ async function loadReviews() {
             const r = d.data();
             const stars = '★'.repeat(Math.round(r.rating || 0)) + '☆'.repeat(5 - Math.round(r.rating || 0));
             tbody.innerHTML += `<tr>
-                <td>${esc(r.reviewerName || '-')}</td>
-                <td>${esc(r.skillTitle || '-')}</td>
+                <td>${esc(r.userName || r.reviewerName || '-')}</td>
+                <td>${esc(r.skillId || r.skillTitle || '-')}</td>
                 <td><span class="stars">${stars}</span> (${Number(r.rating || 0).toFixed(1)})</td>
                 <td>${esc(r.comment || '-')}</td>
-                <td>${formatDate(r.timestamp)}</td>
+                <td>${formatDate(r.createdAt || r.timestamp)}</td>
                 <td><button class="btn-sm btn-danger" onclick="deleteReview('${d.id}')">Remove</button></td>
             </tr>`;
         });

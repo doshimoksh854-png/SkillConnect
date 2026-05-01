@@ -81,6 +81,9 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <activity android:name=".BookingTimelineActivity"
+            android:label="Booking Timeline" />
+
     </application>
 
 </manifest>

@@ -69,7 +69,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
 
     class BookingViewHolder extends RecyclerView.ViewHolder {
 
-        private final TextView tvSkillTitle, tvStatus, tvSubtitle, tvPrice, tvDate;
+        private final TextView tvSkillTitle, tvStatus, tvSubtitle, tvPrice, tvDate, tvRating;
         private final LinearLayout layoutActions;
         private final MaterialButton btnPrimary, btnSecondary, btnChat;
 
@@ -80,6 +80,7 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
             tvSubtitle = itemView.findViewById(R.id.tvSubtitle);
             tvPrice = itemView.findViewById(R.id.tvPrice);
             tvDate = itemView.findViewById(R.id.tvDate);
+            tvRating = itemView.findViewById(R.id.tvRating);
             layoutActions = itemView.findViewById(R.id.layoutActions);
             btnPrimary = itemView.findViewById(R.id.btnPrimary);
             btnSecondary = itemView.findViewById(R.id.btnSecondary);
@@ -90,6 +91,18 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
             tvSkillTitle.setText(booking.getSkillTitle());
             tvPrice.setText(String.format(Locale.getDefault(), "₹%.0f", booking.getPrice()));
 
+            // Tap booking card to open timeline
+            itemView.setOnClickListener(v -> {
+                android.content.Intent intent = new android.content.Intent(
+                    itemView.getContext(), com.skillconnect.BookingTimelineActivity.class);
+                intent.putExtra("booking_title", booking.getSkillTitle());
+                intent.putExtra("booking_provider", booking.getProviderName());
+                intent.putExtra("booking_price", booking.getPrice());
+                intent.putExtra("booking_status", booking.getStatus());
+                intent.putExtra("booking_date", booking.getBookingDate());
+                itemView.getContext().startActivity(intent);
+            });
+
             // Format date
             SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
             tvDate.setText(sdf.format(new Date(booking.getBookingDate())));
@@ -99,6 +112,29 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
                 tvSubtitle.setText("Customer booking");
             } else {
                 tvSubtitle.setText(booking.getProviderName());
+                // Show provider rating for customer view
+                if (tvRating != null && booking.getProviderId() != null) {
+                    com.skillconnect.data.FirebaseRepository.getInstance()
+                        .getSkillsByProviderId(booking.getProviderId(), 
+                            new com.skillconnect.data.FirebaseRepository.Callback<java.util.List<com.skillconnect.models.Skill>>() {
+                                @Override public void onSuccess(java.util.List<com.skillconnect.models.Skill> skills) {
+                                    if (skills != null && !skills.isEmpty()) {
+                                        float totalRating = 0;
+                                        int count = 0;
+                                        for (com.skillconnect.models.Skill s : skills) {
+                                            if (s.getRating() > 0) { totalRating += s.getRating(); count++; }
+                                        }
+                                        if (count > 0) {
+                                            float avg = totalRating / count;
+                                            String stars = "⭐ " + String.format(Locale.getDefault(), "%.1f", avg);
+                                            tvRating.setText(stars);
+                                            tvRating.setVisibility(android.view.View.VISIBLE);
+                                        }
+                                    }
+                                }
+                                @Override public void onError(String e) {}
+                            });
+                }
             }
 
             // Status chip with colour

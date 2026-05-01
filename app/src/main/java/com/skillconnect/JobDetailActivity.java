@@ -94,7 +94,70 @@ public class JobDetailActivity extends AppCompatActivity {
         btnSubmitBid.setOnClickListener(v -> submitBid());
         
         setupTranslation();
+        setupJobActions();
         loadBids();
+    }
+
+    private void setupJobActions() {
+        // Cancel Job button — only for customer on open jobs
+        MaterialButton btnCancelJob = findViewById(R.id.btnCancelJob);
+        if (btnCancelJob != null) {
+            if (isCustomer && "open".equalsIgnoreCase(jobStatus)) {
+                btnCancelJob.setVisibility(View.VISIBLE);
+                btnCancelJob.setOnClickListener(v -> {
+                    new com.google.android.material.dialog.MaterialAlertDialogBuilder(this)
+                        .setTitle("Cancel Job")
+                        .setMessage("Are you sure you want to cancel this job? This will also remove all bids.")
+                        .setPositiveButton("Cancel Job", (d, w) -> deleteJob())
+                        .setNegativeButton("Keep", null)
+                        .show();
+                });
+            } else {
+                btnCancelJob.setVisibility(View.GONE);
+            }
+        }
+
+        // Share Job button
+        MaterialButton btnShareJob = findViewById(R.id.btnShareJob);
+        if (btnShareJob != null) {
+            btnShareJob.setVisibility(View.VISIBLE);
+            btnShareJob.setOnClickListener(v -> shareJob());
+        }
+    }
+
+    private void deleteJob() {
+        repo.deleteJobPost(jobId, new FirebaseRepository.Callback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean result) {
+                Toast.makeText(JobDetailActivity.this, "Job cancelled successfully", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            @Override
+            public void onError(String error) {
+                Toast.makeText(JobDetailActivity.this, "Failed: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void shareJob() {
+        String title = tvTitle.getText().toString();
+        String budget = tvBudget.getText().toString();
+        String category = tvCategory.getText().toString();
+        String desc = tvDescription.getText().toString();
+        
+        String shareText = "🔧 Job on SkillConnect\n\n" +
+            "📋 " + title + "\n" +
+            "💰 Budget: " + budget + "\n" +
+            "📂 Category: " + category + "\n\n" +
+            desc.substring(0, Math.min(desc.length(), 200)) +
+            (desc.length() > 200 ? "..." : "") +
+            "\n\nDownload SkillConnect to apply!";
+        
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Job: " + title);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+        startActivity(Intent.createChooser(shareIntent, "Share Job"));
     }
 
     private void setupTranslation() {
